@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .droptarget {
+            float: left;
+            width: 400px;
+            height: 135px;
+            margin: 15px;
+            padding: 0px;
+            border: 1px solid #aaaaaa;
+            display: block;
+            position: relative;
+        }
+
+        .text {
+            display: block;
+            margin: 0;
+            width: 50px;
+            height: 50px;
+            background-color:darkblue;
+        }
+    </style>
+</head>
+<body>
+
+<p>This example uses the addEventListener() method to attach "dragstart", "dragend", "dragover" and "drop" events to the document object.</p>
+
+<p>Drag the p element back and forth between the two rectangles:</p>
+
+<div class="droptarget" id="1">
+    <div draggable="true" class="text" id="dragtarget"> a</div>
+</div>
+
+<div class="droptarget" id="2"></div>
+
+<p style="clear:both;"><strong>Note:</strong> drag events are not supported in Internet Explorer 8 and earlier versions or Safari 5.1 and earlier versions.</p>
+
+<p id="demo"></p>
+
+<script>
+    /* Events fired on the drag target */
+
+    var parentElem = document.getElementById('2');
+    var dragElem = document.getElementById('dragtarget');
+    var parCoord = getCoords(parentElem);
+    var coords;
+    var shiftX;
+    var shiftY;
+    var isin;
+    //var
+//    var newLeft = ;
+//    var newTop = ;
+
+    function getCoords(elem) {   // кроме IE8-
+        var box = elem.getBoundingClientRect();
+        return {
+            top: box.top + pageYOffset,
+            left: box.left + pageXOffset
+        };
+    }
+
+    document.addEventListener("dragstart", function(event) {
+        event.dataTransfer.setData("Text", event.target.id);
+        document.getElementById("demo").innerHTML = "Started to drag the p element.";
+
+        /*(
+        if (isin == true) {
+            coords = getCoords(event.target);
+            shiftX = event.pageX - coords.left;
+            shiftY = event.pageY - coords.top;
+        }*/
+
+    });
+
+    document.addEventListener("dragend", function(event) {
+        document.getElementById("demo").innerHTML = "Finished dragging the p element.";
+    });
+
+
+    /* Events fired on the drop target */
+    document.addEventListener("dragover", function(event) {
+        event.preventDefault();
+        if (event.target.id == "2") {
+            isin = true;
+
+            var elem = document.getElementById('dragtarget');
+            coords = getCoords(elem);
+            console.log("x", event.pageX );
+            shiftX = event.pageX - coords.left;
+            shiftY = event.pageY - coords.top;
+        }
+        else {
+            isin = false;
+            shiftX = 0;
+            shiftY = 0;
+        }
+    //console.log(event.target.id);
+
+    });
+
+    document.addEventListener("drop", function(event) {
+        event.preventDefault();
+        if ( event.target.className == "droptarget" ) {
+            var data = event.dataTransfer.getData("Text");
+            var elem = document.getElementById(data);
+            event.target.appendChild(document.getElementById(data));
+            if (event.target.id == "2") {
+
+                console.log("mouse location:", event.clientX, event.clientY);
+                console.log("Block location:", parCoord.left, parCoord.top);
+                console.log("Shift location:", shiftX, shiftY);
+                elem.style.position = "relative";
+                elem.style.left = event.clientX - parCoord.left + 'px';
+                elem.style.top = event.clientY - parCoord.top + 'px';
+            }
+        }
+        else {
+            var fElem = document.getElementById('1');
+            fElem.appendChild(document.getElementById("dragtarget"));
+            var data = event.dataTransfer.getData("Text");
+            var elem = document.getElementById(data);
+            elem.style.left = 0 + 'px';
+            elem.style.top = 0 + 'px';
+        }
+    });
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #video {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<p>Video to use:</p>
+<canvas id="myCanvas" width="800" height="600" style="border:1px solid #d3d3d3;">
+    Your browser does not support the HTML5 canvas tag.</canvas>
+<img id="scream" width="20" height="20"
+     src="chrome.svg" alt="The Scream">
+
+
+
+<video id="video" controls width="270" autoplay>
+
+</video>
+
+<button id="snap">Snap Photo</button>
+<div id="ft_list"   style="height:1000px;overflow:auto;"></div>
+
+<p>Canvas (the code draws the current frame of the video every 20 millisecond):</p>
+
+
+<script>
+
+    var v = document.getElementById("video");
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var img = document.getElementById("scream");
+    var i;
+    var button = document.getElementById("snap");
+    var blocks = document.getElementById("ft_list");
+    button.addEventListener("click", ft_addtodo);
+    var no = 0;
+    var video = document.getElementById('video');
+
+    // Get access to the camera!
+
+    function ft_addtodo() {
+        var block = document.createElement('canvas');
+        block.setAttribute('id', no);
+        block.setAttribute('width', 640);
+        block.setAttribute('height', 480);
+        block.setAttribute('class', "canvas");
+        blocks.insertBefore(block, blocks.childNodes[0]);
+        canvas = block; //document.getElementById('canvas');
+        context = canvas.getContext('2d');// = canvas.getContext('2d');
+        video = document.getElementById('video');//setCookie('cookie', encodeURIComponent(blocks.innerHTML), 1);
+        context.drawImage(c, 0, 0, 640, 480);
+        no++;
+    }
+
+    var video = document.getElementById('video');
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        // Not adding `{ audio: true }` since we only want video now
+        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+            video.srcObject = stream;
+            video.play();
+        });
+    }
+
+    v.addEventListener("play", function() {i = window.setInterval(function() {
+        ctx.drawImage(v,5,5,790,590);
+        ctx.drawImage(img, 10, 10, 30, 30)},20);
+    }, false);
+
+    v.addEventListener("pause", function() {window.clearInterval(i);}, false);
+    v.addEventListener("ended", function() {clearInterval(i);}, false);
+
+</script>
+
+<p><strong>Note:</strong> The canvas tag is not supported in Internet
+    Explorer 8 and earlier versions.</p>
+
+</body>
+</html>

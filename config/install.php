@@ -1,7 +1,9 @@
 <?php
-    if ($_POST["DB_USER"] == FALSE || $_POST["DB_PASSWORD"] == FALSE || $_POST["DB_NAME"] == FALSE ||
+
+    if (!$_POST["DB_USER"] || $_POST["DB_PASSWORD"] == "" || $_POST["DB_NAME"] == "" ||
         $_POST["submit"] != "OK") {
-        header('Location: ' . ROOT . 'install?msqlogin=root&error=occured');
+        header('Location: /install?msqlogin=root&error=occured');
+        exit ('Installing failed: empty field in form occured');
     }
 
     $server = "mysql:host=localhost";

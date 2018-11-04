@@ -9,13 +9,17 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 //
 define('ROOT', dirname(__FILE__));
-//
+require_once(ROOT.'/components/Router.php');
+
+$router = new Router();
+$router->run();
+
 if (!file_exists(ROOT."config/success"))
 {
-//    echo  ROOT . '/views/install_form.php';
     if (file_exists(ROOT . '/views/install_form.php'))
-        header('Location:' .'/views/install_form.php');
+        include_once ROOT .'/views/install_form.php';
 }
+die;
     //{
 //    echo 'a';
 //    header('Location: ' . ROOT . '/views/install_form.php');

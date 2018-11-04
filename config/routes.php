@@ -7,6 +7,5 @@
  */
 
 return array(
-    'install' => 'install',
-    'products' => 'product/list',
+    'install' => 'install/view',
 );

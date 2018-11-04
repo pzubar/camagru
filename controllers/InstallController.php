@@ -10,7 +10,11 @@ class InstallController
 {
     public function actionView()
     {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            include_once (ROOT.'/config/install.php');
+            die;
+        }
         include_once (ROOT.'/views/install_form.php');
-        return true;
+        die;
     }
 }

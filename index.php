@@ -17,7 +17,7 @@ $router->run();
 if (!file_exists(ROOT."config/success"))
 {
     if (file_exists(ROOT . '/views/install_form.php'))
-        include_once ROOT .'/views/install_form.php';
+        header('Location: ' . '/install');
 }
 die;
     //{

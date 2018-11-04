@@ -5,7 +5,7 @@
 </head>
 
 <body>
-<form action="" method="post">
+<form action="/install" method="post">
     <div id="top-bar">Database setup</div>
     <input type="text" name="DB_USER" value="" placeholder="mySQL Login" /><br />
     <input type="password" name="DB_PASSWORD" placeholder="mySQL Password" /><br />

@@ -1,7 +1,7 @@
 <?php
     if ($_POST["DB_USER"] == FALSE || $_POST["DB_PASSWORD"] == FALSE || $_POST["DB_NAME"] == FALSE ||
         $_POST["submit"] != "OK") {
-        header('Location: ../install_form.php?msqlogin=root&error=occured');
+        header('Location: ' . ROOT . 'install?msqlogin=root&error=occured');
     }
 
     $server = "mysql:host=localhost";

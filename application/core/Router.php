@@ -44,8 +44,14 @@ class Router
     public  function run()
     {
         if ($this->match())
-            echo 'OK';
-        else
+        {
+            $controller = 'aplication\controllers\\' . ucfirst($this->params['controller']) . 'Controller.php';
+            if (class_exists($controller)) {
+                echo $controller;
+            } else {
+                echo 'No controller found ' . $controller;
+            }
+        } else
             echo '404';
 //        echo 'run Router';
 //        //get query string

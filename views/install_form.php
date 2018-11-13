@@ -16,7 +16,7 @@
             <input class="form-control" type="text" name="DB_USER" value="" placeholder="mySQL Login" /><br />
             <input class="form-control" type="password" name="DB_PASSWORD" placeholder="mySQL Password" /><br />
             <input class="form-control" type="text" name="DB_NAME" value="" placeholder="Name of the new mySQL database" /><br />
-            <input class="form-control" id="butt" type="submit" name="submit" class="btn" value="OK" />
+            <input id="butt" type="submit" name="submit" class="btn" value="OK" />
         </form>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace application\ core;
+namespace application\core;
 
 class Router
 {
@@ -8,8 +8,8 @@ class Router
 
     public function __construct()
     {
-        $routesPath = ROOT.'/config/routes.php';
-        $this->routes = include($routesPath);
+//        $routesPath = ROOT.'/config/routes.php';
+//        $this->routes = include($routesPath);
     }
 
 //    Returns request string

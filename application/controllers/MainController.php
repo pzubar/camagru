@@ -13,7 +13,8 @@ use application\core\Controller;
 class MainController extends Controller
 {
 	public function indexAction() {
-		echo 'Main page';
+//		echo 'Index Page';
+		$this->view->render('Главная строница');
 	}
 
 	public function contactAction() {

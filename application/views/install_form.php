@@ -11,7 +11,7 @@
     justify-content: center;
     height: 100vh;">
     <div class="form col-md-4 col-lg-4 col-sm-12 col-xs-12">
-        <form action="/install" method="post">
+        <form action="../../index.php" method="post">
             <div id="top-bar">Database setup</div>
             <input class="form-control" type="text" name="DB_USER" value="" placeholder="mySQL Login" /><br />
             <input class="form-control" type="password" name="DB_PASSWORD" placeholder="mySQL Password" /><br />

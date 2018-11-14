@@ -32,27 +32,26 @@ class Router
         return false;
     }
 
-//    Returns request string
-    private function getURI()
-    {
-        if (!empty($_SERVER['REQUEST_URI'])) {
-            return trim($_SERVER['REQUEST_URI'], '/');
-        }
-        return '';
-    }
-
     public  function run()
     {
         if ($this->match())
         {
-            $controller = 'aplication\controllers\\' . ucfirst($this->params['controller']) . 'Controller.php';
-            if (class_exists($controller)) {
-                echo $controller;
+            $path = 'application\controllers\\' . ucfirst($this->params['controller']) . 'Controller';
+            if (class_exists($path)) {
+                $action = $this->params['action'].'Action';
+                if (method_exists($path, $action)) {
+                    $controller = new $path;
+                    $controller->$action();
+                } else {
+                    echo 'No action found: ' . $action;
+                }
             } else {
-                echo 'No controller found ' . $controller;
+                echo 'No controller found: ' . $path;
             }
         } else
             echo '404';
+
+
 //        echo 'run Router';
 //        //get query string
 //        $uri = $this->getURI();

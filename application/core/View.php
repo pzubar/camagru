@@ -41,9 +41,18 @@ class View
         }
     }
 
+	public function redirect($url) {
+		header('location: ' . $url);
+		exit;
+	}
+
     public static function errorCode($code) {
+    	$file = 'application/views/layouts/errors/' . $code . '.php';
+
     	http_response_code($code);
-    	require 'application/views/layouts/errors/' . $code . '.php';
+    	if (file_exists($file))
+    		require $file;
 	    exit;
     }
+
 }

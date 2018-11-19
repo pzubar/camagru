@@ -14,7 +14,11 @@ class MainController extends Controller
 {
 	public function indexAction() {
 //		echo 'Index Page';
-		$this->view->render('Главная строница');
+		$vars = [
+			'name' => 'John',
+			'age' => 88,
+		];
+		$this->view->render('Главная строница', $vars);
 	}
 
 	public function contactAction() {

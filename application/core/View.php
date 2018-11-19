@@ -18,9 +18,7 @@ class View
 
 	/**
 	 *
-	 *
 	 * @param $route array
-	 *
 	 */
 
     public function __construct(array $route)
@@ -31,7 +29,7 @@ class View
 
     public function render($title, $vars = [])
     {
-
+		extract($vars);
         $file = 'application/views/' . $this->path . '.php';
         if (file_exists($file)) {
             ob_start();

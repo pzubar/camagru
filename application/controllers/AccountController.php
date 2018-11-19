@@ -13,7 +13,7 @@ class AccountController extends Controller
 
 	public function registerAction()
 	{
-		$this->view->layout = 'custom';
+//		$this->view->layout = 'custom';
         $this->view->render('Sign up');
 	}
 }

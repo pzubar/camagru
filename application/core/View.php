@@ -40,4 +40,10 @@ class View
             echo 'No View found';
         }
     }
+
+    public static function errorCode($code) {
+    	http_response_code($code);
+    	require 'application/views/layouts/errors/' . $code . '.php';
+	    exit;
+    }
 }

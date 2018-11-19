@@ -7,21 +7,34 @@ class Router
 	private $routes = [];
 	private $params = [];
 
+	/**
+	 * initializing routes from routes file
+	 */
 	public function __construct()
 	{
-		$arr = require ROOT . '/application/config/routes.php';
-		foreach ($arr as $key => $val) {
-			$this->add($key, $val);
+		$routes = require ROOT . '/application/config/routes.php';
+		foreach ($routes as $route => $val) {
+			$this->add($route, $val);
 		}
-//        debug($this->routes);
 	}
 
-	public function add($route, $params)
+	/**
+	 * adding routes to Router object like regular expression
+	 *
+	 * @param $route - future route name (e.g. "" for index page etc.)
+	 * @param $params - array from routes file to place into each route pair
+	 */
+	public function add(string $route, array $params)
 	{
 		$route = '#^' . $route . '$#';
 		$this->routes[$route] = $params;
 	}
 
+	/**
+	 * checking for regex matching of requested url to any route
+	 *
+	 * @return bool
+	 */
 	public function match()
 	{
 		$url = trim($_SERVER['REQUEST_URI'], '/');
@@ -34,6 +47,10 @@ class Router
 		return false;
 	}
 
+	/**
+	 * running Router object
+	 *
+	 */
 	public function run()
 	{
 		if ($this->match()) {
@@ -51,35 +68,5 @@ class Router
 			}
 		} else
 			echo '404';
-
-
-//        echo 'run Router';
-//        //get query string
-//        $uri = $this->getURI();
-//        //check existing this query in routes.php
-//        foreach ($this->routes as $uriPattern => $path) {
-//
-//            if (preg_match("~$uriPattern~", $uri))
-//            {
-//                //get which controller and action works on this query
-//                $segments = explode('/', $path);
-//
-//                $controllerName = array_shift($segments).'Controller';
-//                $controllerName = ucfirst($controllerName);
-//
-//                $actionName = 'action'.ucfirst(array_shift($segments));
-//
-//                $controllerFile = ROOT.'/controllers/'.$controllerName.'.php';
-//                if (file_exists($controllerFile))
-//                    include_once($controllerFile);
-//
-//                $controllerObject = new $controllerName;
-//                $result = $controllerObject->$actionName();
-//
-//                if ($result != null)
-//                    break;
-//            }
-//        }
-
 	}
 }

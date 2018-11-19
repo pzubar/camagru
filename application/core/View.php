@@ -16,11 +16,17 @@ class View
     public $layout = 'default';
     public $route;
 
-    public function __construct($route)
+	/**
+	 *
+	 *
+	 * @param $route array
+	 *
+	 */
+
+    public function __construct(array $route)
     {
         $this->route = $route;
         $this->path = $route['controller'] . '/' . $route['action'];
-//		debug($this->path);
     }
 
     public function render($title, $vars = [])

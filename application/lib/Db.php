@@ -11,6 +11,7 @@ class Db
     {
 		require ROOT.'/application/config/database.php';
 		$this->db = new PDO($DB_DSN.';dbname='.$DB_NAME.'', $DB_USER, $DB_PASSWORD);
+		$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     public function query($sql)
@@ -22,7 +23,7 @@ class Db
     public function row($sql)
     {
 	    $result = $this->query($sql);
-	    return $result->fetchAll();
+	    return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
 	public function column($sql)

@@ -21,7 +21,7 @@ class MainController extends Controller
 		];
 
 		$db = new Db();
-		$data = $db->column('SELECT name FROM user WHERE id = 1');
+		$data = $db->row('SELECT name FROM user');
 //		$result
 		debug($data);
 		$this->view->render('Главная строница', $vars);

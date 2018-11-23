@@ -24,26 +24,34 @@ class Db
 	    }
     }
 
-    public function query($sql)
+    public function query($sql, $params = [])
     {
 	    try {
-		    $query = $this->db->query($sql);
+	    	$statement = $this->db->prepare($sql);
+	    	if (!empty($params)) {
+			    foreach ($params as $key => $val) {
+				    $statement->bindValue(':' . $key, $val);
+			    }
+		    }
+	    	$statement->execute();
+		    return $statement;
+//		    $query = $this->db->query($sql);
 	    }
 	    catch (PDOException $exception) {
 		    exit ('Query failed: ' . $exception->getMessage());
 	    }
-    	return $query;
+//    	return $query;
     }
 
-    public function row($sql)
+    public function row($sql, $params = [])
     {
-	    $result = $this->query($sql);
+	    $result = $this->query($sql, $params);
 	    return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-	public function column($sql)
+	public function column($sql, $params = [])
 	{
-		$result = $this->query($sql);
+		$result = $this->query($sql, $params);
 		return $result->fetchColumn();
 	}
 }

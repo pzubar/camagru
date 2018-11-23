@@ -19,10 +19,16 @@ class MainController extends Controller
 			'name' => 'John',
 			'age' => 88,
 		];
-
+		
+		$params = [
+			'id' => '3; DELETE FROM user',
+		];
+		
 		$db = new Db();
-		$data = $db->row('SELECT name FROM user');
+//		$q = '2; DELETE FROM user';
+		$data = $db->row('SELECT name FROM user WHERE id = :id', $params);
 //		$result
+//		$data = $db->row()
 		debug($data);
 		$this->view->render('Главная строница', $vars);
 	}

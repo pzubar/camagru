@@ -11,7 +11,10 @@ class Db
 	 * @var PDO
 	 */
 	protected $db;
-
+	
+	/**
+	 * initialization of database connection
+	 */
     public function __construct()
     {
 	    require ROOT.'/application/config/database.php';
@@ -24,7 +27,7 @@ class Db
 	    }
     }
 
-    public function query($sql, $params = [])
+    public function query(string $sql, array $params)
     {
 	    try {
 	    	$statement = $this->db->prepare($sql);
@@ -43,13 +46,13 @@ class Db
 //    	return $query;
     }
 
-    public function row($sql, $params = [])
+    public function row(string $sql, array $params)
     {
 	    $result = $this->query($sql, $params);
 	    return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-	public function column($sql, $params = [])
+	public function column(string $sql, array $params)
 	{
 		$result = $this->query($sql, $params);
 		return $result->fetchColumn();

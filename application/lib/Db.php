@@ -46,7 +46,7 @@ class Db
 //    	return $query;
     }
 
-    public function row(string $sql, array $params)
+    public function row(string $sql, $params = [])
     {
 	    $result = $this->query($sql, $params);
 	    return $result->fetchAll(PDO::FETCH_ASSOC);

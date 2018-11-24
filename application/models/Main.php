@@ -2,13 +2,18 @@
 	
 	namespace application\models;
 	
+	use application\core\Model;
 	
+	class Main extends Model {
 	
-	class Main {
+//		public function __construct()
+//		{
+//			parent::__construct();
+//			debug($this->db);
+//		}
 		
-		public function __construct()
-		{
-			echo '<p>Hello from main model</p>';
+		public function getNews() {
+			$result = $this->db->row('SELECT h1, description FROM news');
+			return $result;
 		}
-		
 	}

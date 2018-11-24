@@ -15,21 +15,21 @@ class MainController extends Controller
 {
 	public function indexAction() {
 
+
+		
+//		$params = [
+//			'id' => '3; DELETE FROM user',
+//		];
+//
+//		$db = new Db();
+////		$q = '2; DELETE FROM user';
+//		$data = $db->row('SELECT name FROM user WHERE id = :id', $params);
+////		$result
+//		debug($data);
+		$result = $this->model->getNews();
 		$vars = [
-			'name' => 'John',
-			'age' => 88,
+			'news' => $result
 		];
-		
-		$params = [
-			'id' => '3; DELETE FROM user',
-		];
-		
-		$db = new Db();
-//		$q = '2; DELETE FROM user';
-		$data = $db->row('SELECT name FROM user WHERE id = :id', $params);
-//		$result
-//		$data = $db->row()
-		debug($data);
 		$this->view->render('Главная строница', $vars);
 	}
 

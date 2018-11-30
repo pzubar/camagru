@@ -8,8 +8,16 @@ class AccountController extends Controller
 {
 	public function loginAction()
 	{
-//		$this->view->redirect("/");
+//		$_POST = null;
+		if (!empty($_POST)) {
+			$this->view->message('success', 'message');
+		}
+
+//
+//			$this->view->location('/account/register');
+//			var_dump($_POST);
         $this->view->render('Sign in');
+
 	}
 
 	public function registerAction()

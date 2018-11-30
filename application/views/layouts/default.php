@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php echo  $title ?></title>
     <link rel="stylesheet" href="/public/css/bootstrap.min.css">
-    <script src="/public/js/jquery.js"></script>
-    <script src="/public/js/form.js"></script>
+<!--    <script src="/public/js/jquery.js"></script>-->
+<!--    <script src="/public/js/form.js"></script>-->
     <?php ?>
 </head>
 <body>

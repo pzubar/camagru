@@ -14,6 +14,7 @@
 		
 		public function getNews() {
 			$result = $this->db->row('SELECT h1, description FROM news');
+//			$result = "hello";
 			return $result;
 		}
 	}

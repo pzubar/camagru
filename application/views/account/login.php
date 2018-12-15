@@ -1,12 +1,26 @@
+<style>
+    .login-form {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+</style>
 
-
-<h3>Sign in</h3>
-<form action="/account/login" method="post" id="login-page-form">
-	<label for="login">Login</label>
-	<input id="login" name="login" type="text">
-	<label for="password">Password</label>
-	<input id="password" name="password" type="password">
-    <button type="submit">Sign In</button>
-</form>
-
-<script src="/public/js/login_page.js"></script>
+<div class="container">
+    <div class="row justify-content-md-center login-form">
+        <div class="col-md-auto">
+            <h3>Sign in</h3>
+            <form action="/account/login" method="post">
+                <div class="form-group">
+                    <label for="login">Login</label>
+                    <input class="form-control" id="login" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input class="form-control" id="password" type="password">
+                </div>
+                <button class="btn" type="submit">Sign In</button>
+            </form>
+        </div>
+    </div>
+</div>

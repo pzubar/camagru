@@ -1,0 +1,29 @@
+version: '3'
+services:
+  php-apache:
+    build:
+      context: ./php-apache
+    ports:
+      -  80:80
+    volumes:
+      - .:/var/www/html
+    links:
+      - 'mariadb'
+
+  mariadb:
+    image: mariadb:10.1
+    container_name: docker-mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadb:/var/lib/mysql
+    environment:
+      TZ: "Europe/Kyiv"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      MYSQL_ROOT_PASSWORD: "rootpwd"
+      MYSQL_USER: 'pzubar'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_DATABASE: 'camagru'
+
+volumes:
+  mariadb:

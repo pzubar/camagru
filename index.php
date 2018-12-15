@@ -18,19 +18,5 @@ session_start();
 
 $router = new Router();
 $db = new Db();
+$db->install();
 $router->run();
-//
-//if (!file_exists(ROOT."config/success"))
-//{
-//    if (file_exists(ROOT . '/views/install_form.php'))
-//        header('Location: ' . '/install');
-//}
-//die;
-//{
-//    echo 'a';
-//    header('Location: ' . ROOT . '/views/install_form.php');
-//}
-
-//var_dump($_SERVER);
-
-//phpinfo();

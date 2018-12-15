@@ -17,6 +17,7 @@ services:
       - 3306:3306
     volumes:
       - mariadb:/var/lib/mysql
+      - ./dumps/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     environment:
       TZ: "Europe/Kyiv"
       MYSQL_ALLOW_EMPTY_PASSWORD: "no"

@@ -11,17 +11,12 @@ services:
       - 'mariadb'
 
   mariadb:
-#    image: mariadb:10.1
     container_name: docker-mysql
     restart: always
     ports:
       - 3306:3306
     build:
       context: ./mariadb
-#    volumes:
-#      - mariadb:/var/lib/mysql
-#      - ./dumps:/docker-entrypoint-initdb.d/
-#    command: --init-file=./dumps/dump.sql
     environment:
       TZ: "Europe/Kyiv"
       MYSQL_ALLOW_EMPTY_PASSWORD: "no"

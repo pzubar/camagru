@@ -19,7 +19,6 @@ class Db
     {
 	    require ROOT.'/application/config/database.php';
 
-	    $this->$dbname = $DB_NAME;
 	    try {
 		    $this->db = new PDO($DB_DSN . ';dbname=' . $DB_NAME . '', $DB_USER, $DB_PASSWORD);
 		    $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -30,15 +29,6 @@ class Db
 	    }
     }
 
-	public function install()
-	{
-		$this->db->query('CREATE DATABASE IF NOT EXIST camagruDb');
-//		$server = null;
-//			} catch (PDOException $exeption) {
-//		header('Location: ../install_form.php?msqlogin=root&error=badinput');
-//		exit ('Connection failed: ' . $exeption->getMessage());
-//		}
-	}
 
     public function query(string $sql, array $params)
     {

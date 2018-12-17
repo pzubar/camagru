@@ -35,7 +35,9 @@ class Account extends Model
             'password' => password_hash($password, PASSWORD_BCRYPT, $options)
         ];
 
-        debug($params);
+        $test = password_verify( $password ,  $params['password']);
+
+        debug($test);
     }
 
 }

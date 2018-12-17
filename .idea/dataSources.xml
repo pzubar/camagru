@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="maria" uuid="3c511be2-d1f9-4ae0-a4a3-10ab646342b1">
+    <data-source source="LOCAL" name="maria@camagru" uuid="3c511be2-d1f9-4ae0-a4a3-10ab646342b1">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>

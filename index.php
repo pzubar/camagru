@@ -18,5 +18,4 @@ session_start();
 
 $router = new Router();
 $db = new Db();
-//$db->install();
 $router->run();

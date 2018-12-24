@@ -36,10 +36,6 @@ class Account extends Model
 			'login' => $login,
 			'password' => password_hash($password, PASSWORD_BCRYPT, $options)
 		];
-
-//        $test = password_verify( $password ,  $params['password']);
-
-//        debug($test);
 		$result = $this->db->query('INSERT INTO users (username, password, email)
     		VALUES (:login, :password, :email) ', $params);
 		debug($result);

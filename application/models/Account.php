@@ -13,31 +13,36 @@ use application\core\Model;
 
 class Account extends Model
 {
-    public function checkRegisterData(string $email, string $login) {
-        $params = [
-            'email' => $email,
-            'login' => $login
-        ];
-        $result = $this->db->row('SELECT id FROM users WHERE email = :login OR username = :login', $params);
-        if (!empty($result))
-            debug($result);
-    }
+	public function checkRegisterData(string $email, string $login)
+	{
+		$params = [
+			'email' => $email,
+			'login' => $login
+		];
+		$result = $this->db->row('SELECT id FROM users WHERE email = :login OR username = :login', $params);
+		if (!empty($result))
+			return true;
+		return false;
+	}
+	
+	public function createUser(string $email, string $login, string $password)
+	{
+		$options = [
+			'cost' => 10,
+		];
+		
+		$params = [
+			'email' => $email,
+			'login' => $login,
+			'password' => password_hash($password, PASSWORD_BCRYPT, $options)
+		];
 
-    public function createUser(string $email, string $login, string $password)
-    {
-        $options = [
-            'cost' => 10,
-        ];
+//        $test = password_verify( $password ,  $params['password']);
 
-        $params = [
-            'email' => $email,
-            'login' => $login,
-            'password' => password_hash($password, PASSWORD_BCRYPT, $options)
-        ];
-
-        $test = password_verify( $password ,  $params['password']);
-
-        debug($test);
-    }
-
+//        debug($test);
+		$result = $this->db->query('INSERT INTO users (username, password, email)
+    		VALUES (:login, :password, :email) ', $params);
+		debug($result);
+	}
+	
 }

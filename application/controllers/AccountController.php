@@ -35,8 +35,9 @@ class AccountController extends Controller
 //            $this->view->message('success', json_encode($_POST));
             if (!empty($_POST['email']) && !empty($_POST['login']))
             {
-//                debug($_POST);
-                $this->model->checkRegisterData($_POST['email'], $_POST['login']);
+                if ($this->model->checkRegisterData($_POST['email'], $_POST['login'])) {
+                    $this->view->message('fail', 'User with such a login or email already exists');
+                }
                 $this->model->createUser($_POST['email'], $_POST['login'], $_POST['password']);
             }
         }

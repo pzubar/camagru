@@ -10,6 +10,7 @@ namespace application\models;
 
 
 use application\core\Model;
+include ROOT."/application/lib/Mail.php";
 
 class Account extends Model
 {
@@ -38,7 +39,11 @@ class Account extends Model
 		];
 		$result = $this->db->query('INSERT INTO users (username, password, email)
     		VALUES (:login, :password, :email) ', $params);
-		debug($result);
+		return($result);
+	}
+	
+	public function sendRegisterEmail(string $email, string $login) {
+		sendMail($email, $login, "Hello");
 	}
 	
 }

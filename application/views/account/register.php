@@ -33,4 +33,4 @@
     </div>
 </div>
 
-<script src="/public/js/register_page.js"></script>
+<!--<script src="/public/js/register_page.js"></script>-->

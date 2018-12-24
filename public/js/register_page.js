@@ -28,7 +28,6 @@ form.onsubmit = function (e) {
 		alert('Password is invalid!');
 		return;
 	}
-	debugger;
 	fetch(this.action, {
 		method: this.method,
 		body: new FormData(this),
@@ -40,9 +39,8 @@ form.onsubmit = function (e) {
 					response.status);
 				return;
 			}
-			
 			response.json().then(function (data) {
-				
+				debugger;
 				console.log(data);
 			});
 		}

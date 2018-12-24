@@ -29,7 +29,6 @@ class Db
 	    }
     }
 
-
     public function query(string $sql, array $params)
     {
 	    try {
@@ -41,12 +40,10 @@ class Db
 		    }
 	    	$statement->execute();
 		    return $statement;
-//		    $query = $this->db->query($sql);
 	    }
 	    catch (PDOException $exception) {
 		    exit ('Query failed: ' . $exception->getMessage());
 	    }
-//    	return $query;
     }
 
     public function row(string $sql, $params = [])

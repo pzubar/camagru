@@ -17,6 +17,6 @@ RUN { \
 # and adding a php.ini with the senmail path to ssmtp
 RUN echo 'sendmail_path = /usr/sbin/ssmtp -t' >> /usr/local/etc/php/php.ini
 # now copy the local ssmtp.conf file
-COPY ssmtp.conf /etc/ssmtp/ssmtp.conf
+COPY local-ssmtp.conf /etc/ssmtp/ssmtp.conf
 RUN docker-php-ext-install pdo pdo_mysql mysqli
 RUN a2enmod rewrite expires

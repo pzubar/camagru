@@ -7,15 +7,14 @@
 	
 	class AccountController extends Controller
 	{
-		public function loginAction()
+		public function loginAction($message = null)
 		{
-//		$_POST = null;
-			echo 'Hi';
-			debug(func_get_args());
 			if (!empty($_POST)) {
 				$this->view->message('success', 'message');
 			}
-			$this->view->render('Sign in');
+			if ($message === "check-email")
+				$message = "Check your email, we sent there account confirmation letter!";
+			$this->view->render('Sign in', [$message]);
 			
 		}
 		

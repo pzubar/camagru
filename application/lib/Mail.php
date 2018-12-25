@@ -91,4 +91,4 @@
 		mail($to, $mail_subject, $message, $header); // Send our email
 	}
 	
-	sendMail('huzuwoz@cliptik.net', 'lala', 'lolo');
+//	sendMail('huzuwoz@cliptik.net', 'lala', 'lolo');

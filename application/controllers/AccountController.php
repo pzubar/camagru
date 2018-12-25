@@ -10,6 +10,8 @@
 		public function loginAction()
 		{
 //		$_POST = null;
+			echo 'Hi';
+			debug(func_get_args());
 			if (!empty($_POST)) {
 				$this->view->message('success', 'message');
 			}

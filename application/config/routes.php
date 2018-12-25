@@ -7,7 +7,7 @@ return array(
         'action' => 'index'
     ],
 
-    'account/login' => [
+    'account/login(/[a-z]+)?' => [
         'controller' => 'account',
         'action' => 'login',
     ],

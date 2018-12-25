@@ -6,7 +6,7 @@ class Router
 {
 	private $routes = [];
 	private $params = [];
-
+	private $query = [];
 	/**
 	 * initializing routes from routes file
 	 */
@@ -41,6 +41,8 @@ class Router
 		foreach ($this->routes as $route => $params) {
 			if (preg_match($route, $url, $matches)) {
 				$this->params = $params;
+				$segments = explode('/', $url);
+				$this->query = array_slice($segments, 2);
 				return true;
 			}
 		}
@@ -59,7 +61,9 @@ class Router
 				$action = $this->params['action'] . 'Action';
 				if (method_exists($path, $action)) {
 					$controller = new $path($this->params);
-					$controller->$action();
+//					call_user_func_array($controller->$action(), $this->query);
+//					debug(array($controller, $action));
+					call_user_func_array(array($controller, $action), $this->query);
 				} else {
 					View::errorCode(404);
 				}

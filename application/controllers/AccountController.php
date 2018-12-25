@@ -14,6 +14,10 @@
 			}
 			if ($message === "check-email")
 				$message = "Check your email, we sent an account confirmation letter!";
+			else {
+//				$this->view->redirect('/404');
+				$this->view->errorCode(404);
+			}
 			$this->view->render('Sign in', ['message'=>$message]);
 			
 		}
@@ -26,8 +30,8 @@
 						$this->view->message('fail', 'User with such a login or email already exists');
 					} else {
 						$this->model->createUser($_POST['email'], $_POST['login'], $_POST['password']);
-						$this->model->sendRegisterEmail($_POST['email'], $_POST['login']);
-						$this->view->redirect('/account/login?register=success');
+						$this->model->sendRegisterEmail($_POST['email'], $_POST['login'], date("Y-m-d H:i:s"));
+						$this->view->redirect('/account/login/check-email');
 					}
 				}
 			}

@@ -15,7 +15,7 @@ RUN { \
             echo 'opcache.enable_cli=1'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 # and adding a php.ini with the senmail path to ssmtp
-RUN echo 'sendmail_path = /usr/sbin/ssmtp -t' >> /usr/local/etc/php/php.ini
+RUN echo 'sendmail_path = /usr/sbin/ssmtp -t -i -fno-reply@camagru.com -FCamagruTeam' >> /usr/local/etc/php/php.ini
 # now copy the local ssmtp.conf file
 COPY local-ssmtp.conf /etc/ssmtp/ssmtp.conf
 RUN docker-php-ext-install pdo pdo_mysql mysqli

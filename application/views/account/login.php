@@ -7,22 +7,21 @@
 </style>
 
 <div class="container">
+	<?php if (isset($vars['message']))
+		echo '<p style="color: #1c7430;text-align: center;">' . $vars['message'] . '</p>'
+	?>
     <div class="row justify-content-md-center login-form">
         <div class="col-md-auto">
             <h3>Sign in</h3>
-            <?php if (isset($vars['message']))
-                echo '<b style="color: #1c7430">'.$vars['message'].'</b>'
-                ?>
+			
             <form action="/account/login" method="post">
                 <div class="form-group">
-                    <label for="login">Login</label>
-                    <input class="form-control" id="login" type="text">
+                    <input class="form-control" id="login" type="text" placeholder="User Name or E-mail">
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input class="form-control" id="password" type="password">
+                    <input class="form-control" id="password" type="password" placeholder="Password">
                 </div>
-                <button class="btn btn-outline-primary" type="submit">Sign In</button>
+                <button class="btn btn-outline-primary form-control" type="submit">Sign In</button>
             </form>
             <hr>
             <p>Have no account? <a class="btn btn-link" href="/account/register">Sign up</a></p>

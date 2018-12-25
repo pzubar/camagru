@@ -35,15 +35,27 @@ class Account extends Model
 		$params = [
 			'email' => $email,
 			'login' => $login,
-			'password' => password_hash($password, PASSWORD_BCRYPT, $options)
+			'password' => password_hash($password, PASSWORD_BCRYPT, $options),
+			'hash' => sha1($email . date("Y-m-d H:i:s") . $login)
 		];
-		$result = $this->db->query('INSERT INTO users (username, password, email)
-    		VALUES (:login, :password, :email) ', $params);
+		$result = $this->db->query('INSERT INTO users (username, password, email, hash)
+    		VALUES (:login, :password, :email, :hash) ', $params);
 		return($result);
 	}
 	
-	public function sendRegisterEmail(string $email, string $login) {
-		sendMail($email, $login, "Hello");
+	public function sendRegisterEmail(string $email, string $login, string $time) {
+		$hash = sha1($email . $time . $login);
+		sendMail($email, "
+		<html lang='en'><head>
+			<title>Welcome to Camagru!</title>
+		</head>
+		<body>
+			<h2>Hello, " . $login . "</h2>
+			<p>Thanks for signing up in Camagru!</p>
+			<p>Your account has been created. Please, confirm your account by following the verification link below.</p>
+		<p>Please click this link to activate your account:</p>
+		<a href='http://localhost/account/login/auth/" . $hash . "' target='_blank'>Click me!</a>
+		</body></html>");
 	}
 	
 }

@@ -52,9 +52,9 @@
 	function sendMail($email, $login, $text)
 	{
 		$to = $email; // Send email to our user
-		$mail_subject = 'Welcome to Camagru | Account Verification'; // Give the email a subject
+		$mail_subject = 'Welcome to Camagru!'; // Give the email a subject
 		$from_name = "Camagru Team";
-		$from_mail = "pzubar@student.unit.ua";
+		$from_mail = "noreply@camagru.unit.ua";
 		$hostname = substr(gethostname(), 0, 6);
 		$encoding = "utf-8";
 		$hash = hash('tiger192,3', $email . $login);
@@ -84,7 +84,7 @@
 			<p>Thanks for signing up in Camagru!</p>
 			<p>Your account has been created. Please, confirm your account by following the verification link below.</p>
 		<p>Please click this link to activate your account:</p>
-		<a href='http://" . $hostname . "account/login?email=" . $email . "&hash=" . $hash . "' target='_blank'>Click me!</a>
+		<a href='http://localhost/account/login?email=" . $email . "&hash=" . $hash . "' target='_blank'>Click me!</a>
 		</body>
 		</html>
 		";

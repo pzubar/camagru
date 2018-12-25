@@ -54,7 +54,7 @@
 		$to = $email; // Send email to our user
 		$mail_subject = 'Welcome to Camagru!'; // Give the email a subject
 		$from_name = "Camagru Team";
-		$from_mail = "noreply@camagru.unit.ua";
+		$from_mail = "pmzubar@gmail.com";
 		$hostname = substr(gethostname(), 0, 6);
 		$encoding = "utf-8";
 		$hash = hash('tiger192,3', $email . $login);

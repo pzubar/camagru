@@ -12,20 +12,15 @@
             <h3>Sign up</h3>
             <form action="/account/register" method="post" id="register-form">
                 <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input class="form-control" id="email" type="text" name="email" required>
+                    <label for="email"></label>
+                    <input class="form-control" id="email" type="text" name="email" placeholder="E-mail" required>
                 </div>
                 <div class="form-group">
-                    <label for="login">Login</label>
-                    <input class="form-control" id="login" type="text" name="login" required>
+                    <input class="form-control" id="login" type="text" name="login" placeholder="User Name" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input class="form-control" id="password" name="password" type="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="password-confirm">Confirm password</label>
-                    <input class="form-control" id="password-confirm" type="password" required>
+                    <input class="form-control" id="password" name="password" placeholder="Password" type="password" required>
                 </div>
                 <button class="btn btn-info" type="submit">Sign up</button>
             </form>
@@ -33,4 +28,4 @@
     </div>
 </div>
 
-<!--<script src="/public/js/register_page.js"></script>-->
+<script src="/public/js/register_page.js"></script>

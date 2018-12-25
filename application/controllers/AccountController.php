@@ -13,8 +13,8 @@
 				$this->view->message('success', 'message');
 			}
 			if ($message === "check-email")
-				$message = "Check your email, we sent there account confirmation letter!";
-			$this->view->render('Sign in', [$message]);
+				$message = "Check your email, we sent an account confirmation letter!";
+			$this->view->render('Sign in', ['message'=>$message]);
 			
 		}
 		

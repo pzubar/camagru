@@ -20,10 +20,6 @@ form.onsubmit = function (e) {
 		alert('Invalid login!');
 		return;
 	}
-	if (this[2].value !== this[3].value) {
-		alert('Passwords are not equal!');
-		return;
-	}
 	if (!validateLoginPassword(this[2].value)) {
 		alert('Password is invalid!');
 		return;
@@ -33,14 +29,13 @@ form.onsubmit = function (e) {
 		body: new FormData(this),
 	}).then(
 		function (response) {
-			debugger;
 			if (response.status !== 200) {
 				console.log('Looks like there was a problem. Status Code: ' +
 					response.status);
 				return;
 			}
 			response.json().then(function (data) {
-				debugger;
+				alert(data);
 				console.log(data);
 			});
 		}

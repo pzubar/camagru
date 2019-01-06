@@ -30,11 +30,19 @@
 						$this->view->message('fail', 'User with such a login or email already exists');
 					} else {
 						$this->model->createUser($_POST['email'], $_POST['login'], $_POST['password']);
-						$this->model->sendRegisterEmail($_POST['email'], $_POST['login'], date("Y-m-d H:i:s"));
 						$this->view->redirect('/account/login/check-email');
 					}
 				}
 			}
 			$this->view->render('Sign up');
+		}
+		
+		public function authAction($hash = null)
+		{
+			if ($hash)
+				$this->model->activateUser($hash);
+//				$this->model->activateUser('zhopa');
+			else
+				$this->view::redirect('/');
 		}
 	}

@@ -105,11 +105,9 @@ CREATE TABLE `users` (
   `email` varchar(320) NOT NULL,
   `register_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `is_activated` tinyint(1) NOT NULL DEFAULT '0',
-  `hash` char(40) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_uindex` (`email`),
-  UNIQUE KEY `users_username_uindex` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  `hash` varchar(48) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +116,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'tpiven','123456','lal@LALA','2018-12-15 15:30:53',0,'');
+INSERT INTO `users` VALUES (1,'tpiven','123456','lal@LALA','2018-12-15 15:30:53',0,''),(2,'simurg','$2y$10$iOhe7.tXZwYpS5LrLo29..gpXqQlUFCBB8h6nWyTmnphvpH4QNmU6','pmzubar@gmail.com','2019-01-06 12:05:19',0,'b9736f6aad4879e777221732e9c8b4e0b441e114090ce930');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -131,4 +129,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-26  8:04:06
+-- Dump completed on 2019-01-06 12:35:19

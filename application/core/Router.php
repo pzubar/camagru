@@ -6,7 +6,7 @@
 	{
 		private $routes = [];
 		private $params = [];
-		private $query = [];
+		private $queryParams = [];
 		
 		/**
 		 * initializing routes from routes file
@@ -33,17 +33,18 @@
 		
 		/**
 		 * checking for regex matching of requested url to any route
-		 *
+		 * adding queryParams
 		 * @return bool
 		 */
 		public function match()
 		{
 			$url = trim($_SERVER['REQUEST_URI'], '/');
+			
 			foreach ($this->routes as $route => $params) {
 				if (preg_match($route, $url, $matches)) {
 					$this->params = $params;
 					$segments = explode('/', $url);
-					$this->query = array_slice($segments, 2);
+					$this->queryParams = array_slice($segments, 2);
 					return true;
 				}
 			}
@@ -65,7 +66,7 @@
 					$action = $this->params['action'] . 'Action';
 					if (method_exists($path, $action)) {
 						$controller = new $path($this->params);
-						call_user_func_array(array($controller, $action), $this->query);
+						call_user_func_array(array($controller, $action), $this->queryParams);
 					} else {
 						View::errorCode(404);
 					}

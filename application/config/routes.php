@@ -16,5 +16,10 @@ return array(
 		'controller' => 'account',
 		'action' => 'register',
 	],
+	
+	'feed' => [
+		'controller' => 'feed',
+		'action' => 'feed',
+	],
 
 );

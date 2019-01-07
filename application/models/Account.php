@@ -10,11 +10,18 @@
 	
 	
 	use application\core\Model;
+	use Exception;
 	
 	include ROOT . "/application/lib/Mail.php";
 	
 	class Account extends Model
 	{
+		/**
+		 * checks if there is a user with such an email or login
+		 * @param string $email
+		 * @param string $login
+		 * @return bool
+		 */
 		public function checkRegisterData(string $email, string $login)
 		{
 			$params = [
@@ -50,13 +57,12 @@
 		public function sendRegisterEmail(string $email, string $login, string $hash)
 		{
 			sendMail($email,
-				"Welcome to Camagru!
-			<h2>Hello, " . $login . "
+				"<h2>Welcome to Camagru!</h2>
+			<h3>Hello, " . $login . "</h3>
 			<p>Thanks for signing up to Camagru!</p>
 			<p>Your account has been created. Please, confirm your account by following the verification link below.</p>
 		<p>Please click this link to activate your account:</p>
-		<a href='http://localhost/account/auth/" . $hash . "' target='_blank'>Click me!</a>
-		</body></html>");
+		<a href='http://localhost/account/auth/" . $hash . "' target='_blank'>Click me!</a></body></html>");
 		}
 		
 		/**
@@ -71,6 +77,17 @@
 			];
 			$result = $this->db->query('UPDATE users SET is_activated = true WHERE hash = :hashcode', $params);
 			debug($result);
+		}
+		
+		public function loginUser(string $emailOrLogin, string $password)
+		{
+			$params = [
+				'email' => $emailOrLogin
+			];
+			$result = $this->db->row('SELECT password FROM users WHERE email = :email OR username = :email', $params);
+			if (!$result)
+				throw new Exception('Poshel nakhui, perukh');
+			return $result;
 		}
 		
 	}

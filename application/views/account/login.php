@@ -14,12 +14,12 @@
         <div class="col-md-auto">
             <h3>Sign in</h3>
 			
-            <form action="/account/login" method="post">
+            <form action="/account/login" method="post" id="login-page-form">
                 <div class="form-group">
-                    <input class="form-control" id="login" type="text" placeholder="User Name or E-mail">
+                    <input class="form-control" id="login" type="text" name="login" required placeholder="User Name or E-mail">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" id="password" type="password" placeholder="Password">
+                    <input class="form-control" id="password" type="password" name="password" required placeholder="Password">
                 </div>
                 <button class="btn btn-outline-primary form-control" type="submit">Sign In</button>
             </form>

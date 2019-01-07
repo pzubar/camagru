@@ -7,6 +7,11 @@
 			'action' => 'index'
 		],
 		
+		'logout' => [
+			'controller' => 'main',
+			'action' => 'logout'
+		],
+		
 		'account/login(/[a-z-]*)?' => [
 			'controller' => 'account',
 			'action' => 'login',
@@ -22,9 +27,9 @@
 			'action' => 'register',
 		],
 		
-		'feed' => [
-			'controller' => 'feed',
-			'action' => 'feed',
+		'photos/new' => [
+			'controller' => 'photos',
+			'action' => 'new',
 		],
 	
 	);

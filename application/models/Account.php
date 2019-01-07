@@ -57,12 +57,12 @@
 		public function sendRegisterEmail(string $email, string $login, string $hash)
 		{
 			sendMail($email,
-				"<h2>Welcome to Camagru!</h2>
-			<h3>Hello, " . $login . "</h3>
-			<p>Thanks for signing up to Camagru!</p>
-			<p>Your account has been created. Please, confirm your account by following the verification link below.</p>
-		<p>Please click this link to activate your account:</p>
-		<a href='http://localhost/account/auth/" . $hash . "' target='_blank'>Click me!</a></body></html>");
+	"<h2>Welcome to Camagru!</h2>
+				<h3>Hello, " . $login . "</h3>
+				<p>Thanks for signing up to Camagru!</p>
+				<p>Your account has been created. Please, confirm your account by following the verification link below.</p>
+				<p>Please click this link to activate your account:</p>
+				<a href='http://localhost/account/auth/" . $hash . "' target='_blank'>Click me!</a></body></html>");
 		}
 		
 		/**
@@ -84,9 +84,15 @@
 			$params = [
 				'email' => $emailOrLogin
 			];
-			$result = $this->db->row('SELECT password FROM users WHERE email = :email OR username = :email', $params);
+			$result = $this->db->row('SELECT password FROM users WHERE email = :email OR username = :email LIMIT 1', $params);
+			debug($result);
 			if (!$result)
-				throw new Exception('Poshel nakhui, perukh');
+				throw new Exception('There is no user with such a email or login');
+			if (!password_verify($password, $result))
+				throw new Exception('Wrong password');
+//			$_SESSION
+			
+			$_SESSION['logged_user'] = true;
 			return $result;
 		}
 		

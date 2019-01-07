@@ -20,7 +20,9 @@ class MainController extends Controller
 		$this->view->render('Главная строница', $vars);
 	}
 
-	public function contactAction() {
-		echo 'Contacts';
+	public function logoutAction() {
+		session_unset();
+		$this->view::redirect('/');
 	}
+	
 }

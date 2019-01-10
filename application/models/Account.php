@@ -91,7 +91,6 @@
 				throw new Exception('Wrong password');
 			
 			$_SESSION['logged_user'] = true;
-			debug($_SESSION);
 			return $result;
 		}
 		

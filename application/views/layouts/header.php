@@ -6,3 +6,4 @@
     <title><?php echo  $title ?></title>
     <link rel="stylesheet" href="/public/css/bootstrap.min.css">
 </head>
+

@@ -85,14 +85,13 @@
 				'email' => $emailOrLogin
 			];
 			$result = $this->db->row('SELECT password FROM users WHERE email = :email OR username = :email LIMIT 1', $params);
-			debug($result);
 			if (!$result)
 				throw new Exception('There is no user with such a email or login');
-			if (!password_verify($password, $result))
+			if (!password_verify($password, $result[0]['password']))
 				throw new Exception('Wrong password');
-//			$_SESSION
 			
 			$_SESSION['logged_user'] = true;
+			debug($_SESSION);
 			return $result;
 		}
 		

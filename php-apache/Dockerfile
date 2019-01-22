@@ -1,4 +1,4 @@
-FROM php:7.3.0-apache
+FROM php:7.2-apache
 MAINTAINER pzubar
 RUN apt-get update && apt-get -y install ssmtp libjpeg-dev libpng-dev \
   && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \

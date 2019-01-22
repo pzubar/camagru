@@ -62,7 +62,7 @@
 				<p>Thanks for signing up to Camagru!</p>
 				<p>Your account has been created. Please, confirm your account by following the verification link below.</p>
 				<p>Please click this link to activate your account:</p>
-				<a href='http://localhost/account/auth/" . $hash . "' target='_blank'>Click me!</a></body></html>");
+				<a href='http://localhost:8888/account/auth/" . $hash . "' target='_blank'>Click me!</a></body></html>");
 		}
 		
 		/**

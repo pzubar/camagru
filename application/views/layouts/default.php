@@ -16,7 +16,7 @@
 		<?php if (isset($_SESSION['logged_user']))
 			echo '
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <a class="btn btn-outline-success my-2 my-sm-0" type="submit">Take a photo</a>
+                    <a href="/logout"class="btn btn-outline-success my-2 my-sm-0" type="submit">Take a photo</a>
                     <a href="/logout" class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign out</a>
                 </div>';
 		else

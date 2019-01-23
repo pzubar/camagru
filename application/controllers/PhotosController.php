@@ -8,7 +8,7 @@ class PhotosController extends Controller
 {
     public function newAction()
     {
-
+//  https://time2hack.com/2018/08/upload-files-to-php-backend-using-fetch-formdata/!!!
 //        $result = $this->model->getNews();
 //        $vars = [
 //            'news' => $result
@@ -33,9 +33,26 @@ class PhotosController extends Controller
     }
 
     public function createAction() {
-        if (!empty($_POST)) {
-            $this->view->redirect('google.com');
+//        if (empty($_POST)) {
+//           exit(json_encode(['status'=> 'success', 'message' => '123']));
+//        }
+        exit(json_encode(['status'=> 'success', 'message' => json_encode($_SERVER)]));
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if ($contentType === "application/json") {
+            //Receive the RAW post data.
+            $content = trim(file_get_contents("php://input"));
+
+            $decoded = json_decode($content, true);
+
+            //If json_decode failed, the JSON is invalid.
+            if(! is_array($decoded)) {
+
+            } else {
+                // Send error back to user.
+            }
         }
+
     }
 
 }

@@ -52,18 +52,15 @@
         fetch("/photos/create", {
             method: "POST",
             headers: {"Content-Type": "application/upload"},
-            body: dataURL
+            // body: dataURL
+            body: JSON.stringify({a: 1, b: 2})
         })
-            .then(response => {
-                debugger;
-            return response})
             .then(response => response.json())
             .then(response => {
-                debugger;
+                alert('succes')
             })
             .catch(error => {
                 alert('error');
-                debugger;
             })
     });
 

@@ -31,5 +31,10 @@
 			'controller' => 'photos',
 			'action' => 'new',
 		],
+
+        'photos/create' => [
+            'controller' => 'photos',
+            'action' => 'create',
+        ],
 	
 	);

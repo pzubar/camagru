@@ -36,15 +36,15 @@ class PhotosController extends Controller
 //        if (empty($_POST)) {
 //           exit(json_encode(['status'=> 'success', 'message' => '123']));
 //        }
-        exit(json_encode(['status'=> 'success', 'message' => json_encode($_SERVER)]));
+
         $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
-        if ($contentType === "application/json") {
+        if ($contentType === "application/upload") {
             //Receive the RAW post data.
             $content = trim(file_get_contents("php://input"));
 
             $decoded = json_decode($content, true);
-
+            exit(json_encode(['status'=> 'success', 'message' => json_encode($decoded)]));
             //If json_decode failed, the JSON is invalid.
             if(! is_array($decoded)) {
 

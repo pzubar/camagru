@@ -21,6 +21,8 @@
 			if ($message) {
 				if ($message === "check-email")
 					$message = "Check your email, we sent an account confirmation letter!";
+				else if ($message === "activation-success")
+				    $message = "Your account was successfully activated";
 				else {
 					$this->view->errorCode(404);
 				}
@@ -45,8 +47,10 @@
 		
 		public function authAction($hash = null)
 		{
-			if ($hash)
-				$this->model->activateUser($hash);
+			if ($hash) {
+                $this->model->activateUser($hash);
+                $this->view->redirect('/account/login/activation-success');
+            }
 			else
 				$this->view::redirect('/');
 		}

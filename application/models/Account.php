@@ -33,7 +33,7 @@
 				return true;
 			return false;
 		}
-		
+
 		public function createUser(string $email, string $login, string $password)
 		{
 			$options = [
@@ -62,7 +62,8 @@
 				<p>Thanks for signing up to Camagru!</p>
 				<p>Your account has been created. Please, confirm your account by following the verification link below.</p>
 				<p>Please click this link to activate your account:</p>
-				<a href='http://localhost:8888/account/auth/" . $hash . "' target='_blank'>Click me!</a></body></html>");
+				<a href='http://" . $_SERVER['HTTP_HOST'] . "/account/auth/" . $hash . "' target='_blank'>Click me!</a></body></html>"
+            );
 		}
 		
 		/**
@@ -76,7 +77,6 @@
 				'hashcode' => $hash
 			];
 			$result = $this->db->query('UPDATE users SET is_activated = true WHERE hash = :hashcode', $params);
-			debug($result);
 		}
 		
 		public function loginUser(string $emailOrLogin, string $password)

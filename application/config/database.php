@@ -1,6 +1,7 @@
 <?php
 //	$DB_DSN = 'mysql:host=docker-mysql;port=3306';
-	$DB_DSN = 'mysql:host=localhost;port=3306';
-	$DB_USER = 'root';
-	$DB_PASSWORD = 'rootpwd';
-	$DB_NAME = 'camagru';
+//	$DB_DSN = 'mysql:host=localhost;port=3306';
+	$DB_DSN = 'mysql:host=sql45.main-hosting.eu;port=3306';
+	$DB_USER = 'u181725448_admin';
+	$DB_PASSWORD = 'Sbe5Eo6n0cHx';
+	$DB_NAME = 'u181725448_cama';

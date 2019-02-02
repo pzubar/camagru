@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="hostinger_camagru">
+    <serverData>
+      <paths name="hostinger_camagru">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/public_html/camagru" local="$PROJECT_DIR$" web="/public_html/camagru" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

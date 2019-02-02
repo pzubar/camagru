@@ -86,7 +86,7 @@ class Account extends Model
 		$params = [
 			'email' => $emailOrLogin
 		];
-		$result = $this->db->row('SELECT id, password, is_activated FROM users WHERE email = :email OR username = :email LIMIT 1', $params);
+		$result = $this->db->row('SELECT * FROM users WHERE email = :email OR username = :email LIMIT 1', $params);
 		if (!$result)
 			throw new Exception('There is no user with such a email or login');
 		if (!password_verify($password, $result[0]['password']))

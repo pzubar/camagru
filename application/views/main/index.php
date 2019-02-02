@@ -1,10 +1,16 @@
 <!--<p>Главная страница</p>-->
 
 <!--    --><?php //foreach ($news as $val):?>
-<!--    <h3>-->
-<!--        --><?php //echo $val['h1']?>
-<!--    </h3>-->
-<!--    <p>-->
-<!--        --><?php //echo $val['description']?>
-<!--    </p>-->
+<!--        --><?php //echo $val['filename']?>
 <!--    --><?php //endforeach; ?>
+<?php
+foreach ($news as $val):?>
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<div class="col-md-auto">
+				<h6><?php echo $val['username']?></h6>
+				<img src='<?php echo $val['filename']?>'>
+			</div>
+		</div>
+	</div>
+<?php endforeach; ?>

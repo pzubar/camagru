@@ -10,74 +10,15 @@
 <body>
 
 <div class="container">
-	<div class="row">
-		<div class="col-md-6">
-			<video id="video" width="100%" height="100%" autoplay style="display: none"></video>
-			<canvas id="canvas" width="640" height="480"></canvas>
+	<div class="row justify-content-md-center">
+		<div class="col-md-10">
+			<video id="video" width="1600" height="900" autoplay style="display: none"></video>
+			<canvas id="canvas"></canvas>
 			<button id="snap" class="btn btn-dark">Snap Photo</button>
 		</div>
 	</div>
 </div>
 
-<script>
-    const player = document.getElementById('video');
-    navigator.getMedia = (navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia);
-
-    navigator.getMedia(
-        {
-            video: true,
-            audio: false
-        },
-        function (stream) {
-            if (navigator.mozGetUserMedia) {
-                player.mozSrcObject = stream;
-            } else {
-                player.srcObject = stream;
-            }
-            player.play();
-        },
-        function (err) {
-
-        }
-    );
-
-    const canvas = document.getElementById('canvas');
-    const context = canvas.getContext('2d');
-
-    document.getElementById("snap").addEventListener("click", function () {
-        // context.drawImage(player, 0, 0, 640, 480);
-        const dataURL = canvas.toDataURL();
-        fetch("/photos/create", {
-            method: "POST",
-            headers: {"Content-Type": "application/upload"},
-            body: dataURL
-        })
-            .then(response => {
-                if (!response.ok)
-                    throw new Error("Error!");
-                return response.json();
-            })
-            .then(response => {
-                const {status} = response;
-                if (status !== "success")
-                    alert(response.message)
-            })
-            .catch(error => {
-                // alert(error);
-                console.log("Error ", error);
-            })
-    });
-
-    player.addEventListener('play', () => {
-        window.setInterval(function () {
-            context.drawImage(player, 0, 0, 640, 480)
-        }, 25);
-    }, false);
-</script>
+<script src="/public/js/new_photo.js"></script>
 </body>
 </html>
-<?php
-//    gd_info();

@@ -21,5 +21,3 @@ session_start();
 $router = new Router();
 $db = new Db();
 $router->run();
-
-///Volumes/Storage/cache/pzubar/Library/Containers/MAMP/php/etc/php.ini

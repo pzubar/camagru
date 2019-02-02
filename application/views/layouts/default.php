@@ -21,8 +21,8 @@
                 </div>';
 		else
 			echo '
-                <a href="/account/login" class="btn btn-outline-success my-2 my-sm-0" type="submit" role="button">Sign in</a>
-                <a href="/account/register" class="btn btn-outline-success my-2 my-sm-0" type="submit" role="button">Sign up</a>
+                <a href="/account/login" class="btn btn-outline-success my-2 my-sm-0" role="button">Sign in</a>
+                <a href="/account/register" class="btn btn-outline-success my-2 my-sm-0" role="button">Sign up</a>
                 '
 		?>
     </div>

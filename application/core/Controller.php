@@ -25,7 +25,6 @@
 //		else {
 //			View::errorCode(503);
 //		}
-//		debug($path);$path
 			return null;
 		}
 	}

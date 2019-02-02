@@ -15,7 +15,6 @@ class PhotosController extends Controller
 //        ];
 //        debug(gd_info());
 		$this->view->render('New Photo');
-//        debug('la');
 //        $dest = imagecreatefrompng('application/controllers/b.png');
 //        $src = imagecreatefromjpeg('application/controllers/a.jpg');
 //
@@ -32,30 +31,17 @@ class PhotosController extends Controller
 //        imagedestroy($src);
 	}
 
+
 	public function createAction()
 	{
-//        if (empty($_POST)) {
-//           exit(json_encode(['status'=> 'success', 'message' => '123']));
-//        }
-
-		$contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
-
-		if ($contentType === "application/upload") {
-			//Receive the RAW post data.
-			$content = trim(file_get_contents("php://input"));
-			$img = str_replace('data:image/png;base64,', '', $content);
-			$img = str_replace(' ', '+', $img);
-			$file = md5(uniqid()) . '.png';
-			file_put_contents($file, base64_decode($img));
-            exit(json_encode(['status'=> 'success', 'message' => json_encode($content)]));
-			//If json_decode failed, the JSON is invalid.
-			if (!is_array($decoded)) {
-
-			} else {
-				// Send error back to user.
-			}
-		}
-
+		if (!isset($_SESSION['logged_user']) || !$_SESSION['logged_user']['is_active'])
+			exit(json_encode(['status' => 'error', 'message' => 'You have not yet activated your account']));
+		$fileName = $this->model->createPhoto();
+		if (!$fileName)
+			exit(json_encode(['status' => 'error', 'message' => 'Photo was not saved']));
+		$userID = $_SESSION['logged_user']['id'];
+		$this->model->savePhotoNameToUserTable($fileName, $userID);
+//		exit(json_encode(['status' => 'error', 'message' => json_encode($_SESSION)]));
 	}
 
 }

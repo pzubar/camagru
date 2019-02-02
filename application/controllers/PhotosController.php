@@ -6,15 +6,15 @@ use application\core\Controller;
 
 class PhotosController extends Controller
 {
-    public function newAction()
-    {
+	public function newAction()
+	{
 //  https://time2hack.com/2018/08/upload-files-to-php-backend-using-fetch-formdata/!!!
 //        $result = $this->model->getNews();
 //        $vars = [
 //            'news' => $result
 //        ];
 //        debug(gd_info());
-            $this->view->render('New Photo');
+		$this->view->render('New Photo');
 //        debug('la');
 //        $dest = imagecreatefrompng('application/controllers/b.png');
 //        $src = imagecreatefromjpeg('application/controllers/a.jpg');
@@ -30,29 +30,32 @@ class PhotosController extends Controller
 //        debug($dest);
 //        imagedestroy($dest);
 //        imagedestroy($src);
-    }
+	}
 
-    public function createAction() {
+	public function createAction()
+	{
 //        if (empty($_POST)) {
 //           exit(json_encode(['status'=> 'success', 'message' => '123']));
 //        }
 
-        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+		$contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
-        if ($contentType === "application/upload") {
-            //Receive the RAW post data.
-            $content = trim(file_get_contents("php://input"));
+		if ($contentType === "application/upload") {
+			//Receive the RAW post data.
+			$content = trim(file_get_contents("php://input"));
+			$img = str_replace('data:image/png;base64,', '', $content);
+			$img = str_replace(' ', '+', $img);
+			$file = md5(uniqid()) . '.png';
+			file_put_contents($file, base64_decode($img));
+            exit(json_encode(['status'=> 'success', 'message' => json_encode($content)]));
+			//If json_decode failed, the JSON is invalid.
+			if (!is_array($decoded)) {
 
-            $decoded = json_decode($content, true);
-            exit(json_encode(['status'=> 'success', 'message' => json_encode($decoded)]));
-            //If json_decode failed, the JSON is invalid.
-            if(! is_array($decoded)) {
+			} else {
+				// Send error back to user.
+			}
+		}
 
-            } else {
-                // Send error back to user.
-            }
-        }
-
-    }
+	}
 
 }

@@ -34,7 +34,8 @@ class PhotosController extends Controller
 
 	public function createAction()
 	{
-		if (!isset($_SESSION['logged_user']) || !$_SESSION['logged_user']['is_active'])
+//		exit(json_encode(['status' => 'error', 'message' => json_encode($_SESSION)]));
+		if (!isset($_SESSION['logged_user']) || !$_SESSION['logged_user']['is_activated'])
 			exit(json_encode(['status' => 'error', 'message' => 'You have not yet activated your account']));
 		$fileName = $this->model->createPhoto();
 		if (!$fileName)

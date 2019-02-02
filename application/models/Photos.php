@@ -26,8 +26,8 @@ class Photos extends Model
 			$content = trim(file_get_contents("php://input"));
 			$img = str_replace('data:image/png;base64,', '', $content);
 			$img = str_replace(' ', '+', $img);
-			$fileName = ROOT . '/images/photos/' . md5(uniqid()) . '.png';
-			file_put_contents($fileName, base64_decode($img));
+			$fileName = '/images/photos/' . md5(uniqid()) . '.png';
+			file_put_contents(ROOT . $fileName, base64_decode($img));
 			return $fileName;
 		} else
 			return '';

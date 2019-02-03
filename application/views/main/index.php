@@ -8,9 +8,9 @@
 	foreach ($news as $val):?>
 		<div class="container">
 			<div class="row justify-content-md-center">
-				<div class="col-md-12 post-container">
+				<div class="card col-md-12 post-container">
 					<h6><?php echo $val['username'] ?></h6>
-					<p><?php echo $val['postdate'] ?></p>
+					<p><small><?php echo $val['postdate'] ?></small></p>
 					<img src='<?php echo $val['filename'] ?>'>
 				</div>
 			</div>

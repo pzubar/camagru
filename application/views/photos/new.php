@@ -22,6 +22,17 @@
 			padding-bottom: 5px;
 			border-radius: 3px;
 		}
+
+		.superposable-image img {
+			max-width: 100%;
+		}
+
+		.superposable-image:first-child {
+			/*height: 128px;*/
+			border: 0;
+			text-align: center;
+			color: #ed969e;
+		}
 	</style>
 </head>
 <body>
@@ -37,14 +48,15 @@
 			<h6>Superposable images:</h6>
 			<div class="superposables-container">
 				<!--					--><?php //foreach ($photos as $val): ?>
-				<?php
-					$val = $photos[0];
-					for ($i = 0; $i < 20; $i++): ?>
-						<div class="col-md-2 superposable-image">
-							<img id="sp-<?php echo $i ?>"
-								 src="/images/superposables/<?php echo $val['filename'] ?>" alt="">
-						</div>
-					<?php endfor; ?>
+				<div class="col-md-2 col-xs-4 col-sm-4 superposable-image">
+					<i class="fas fa-2x fa-ban"></i>
+				</div>
+				<?php foreach ($superposables as $val): ?>
+					<div class="col-md-2 col-xs-4 col-sm-4 superposable-image">
+						<img id="sp-<?php echo  $val['id'] ?>"
+							 src="/images/superposables/<?php echo $val['filename'] ?>" alt="">
+					</div>
+				<?php endforeach; ?>
 			</div>
 		</div>
 		<div class="col-md-10">

@@ -5,10 +5,11 @@
 <nav class="navbar sticky-top navbar-light bg-light justify-content-between">
 	<a class="navbar-brand" href="/">
 		<img src="/public/img/camera.png" width="30" height="30" class="d-inline-block align-top" alt="">
-		<b class="d-xs-none">CAMAGRU</b>
+		<span class="d-xs-none">
+			<b>CAMAGRU</b>
+		</span>
 	</a>
 	<div>
-
 		<?php if (isset($_SESSION['logged_user'])): ?>
 			<a href="/photos/new" class="btn btn-outline-info" role="button">Take a photo</a>
 			<a href="/logout" class="btn btn-info" role="button">Sign out</a>

@@ -15,9 +15,9 @@ class MainController extends Controller
 	public function indexAction() {
 		$result = $this->model->getPosts();
 		$vars = [
-			'news' => $result
+			'posts' => $result
 		];
-		$this->view->render('Главная строница', $vars);
+		$this->view->render('Home', $vars);
 	}
 
 	public function logoutAction() {

@@ -33,7 +33,7 @@ class PhotosController extends Controller
 		$superPosables = $this->model->getSuperPosables();
 //		debug($superPosables);
 		$vars = [
-			'photos' => $superPosables
+			'superposables' => $superPosables
 		];
 		$this->view->render('New Photo', $vars);
 
@@ -50,6 +50,7 @@ class PhotosController extends Controller
 			exit(json_encode(['status' => 'error', 'message' => 'Photo was not saved']));
 		$userID = $_SESSION['logged_user']['id'];
 		$this->model->savePhotoNameToUserTable($fileName, $userID);
+		$this->view->location("/");
 //		exit(json_encode(['status' => 'error', 'message' => json_encode($_SESSION)]));
 	}
 

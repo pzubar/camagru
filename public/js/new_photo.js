@@ -1,17 +1,23 @@
-const player = document.getElementById('video');
-const canvas = document.getElementById('canvas');
-const context = canvas.getContext('2d');
-const superposable = {
-	img: null,
-	isDraggable: false
-};
-const currentPos = {
-	x: 0,
-	y: 0
-};
-const canvasSize = {};
-
 window.onload = function () {
+	const player = document.getElementById('video');
+	const canvas = document.getElementById('canvas');
+	const context = canvas.getContext('2d');
+	const superposable = {
+		img: null,
+		isDraggable: false,
+		scale: 1,
+		id: null
+	};
+	/**
+	 * superposable center position
+	 * @type {{x: number, y: number}}
+	 */
+	const currentPos = {
+		x: 0,
+		y: 0
+	};
+	const canvasSize = {};
+
 	navigator.getMedia = (navigator.getUserMedia ||
 		navigator.webkitGetUserMedia ||
 		navigator.mozGetUserMedia ||
@@ -36,28 +42,32 @@ window.onload = function () {
 	);
 
 	renderCanvas();
-
-	document.getElementById("snap").addEventListener("click", function () {
-		const dataURL = canvas.toDataURL();
-		fetch("/photos/create", {
-			method: "POST",
-			headers: {"Content-Type": "application/upload"},
-			body: dataURL
-		})
-			.then(response => {
-				if (!response.ok)
-					throw new Error("Error!");
-				return response.json();
+	const snapButton = document.getElementById("snap");
+	if (snapButton)
+		snapButton.addEventListener("click", function () {
+			snapButton.disabled = true;
+			const dataURL = canvas.toDataURL();
+			fetch("/photos/create", {
+				method: "POST",
+				headers: {"Content-Type": "application/upload"},
+				body: dataURL
 			})
-			.then(response => {
-				const {status} = response;
-				if (status !== "success")
-					alert(response.message)
-			})
-			.catch(error => {
-				console.log("Error ", error);
-			})
-	});
+				.then(response => {
+					if (!response.ok)
+						throw new Error("Error!");
+					return response.json();
+				})
+				.then(response => {
+					const {status, url} = response;
+					if (url)
+						window.location.replace("/");
+					else if (status !== "success")
+						alert(response.message)
+				})
+				.catch(error => {
+					console.log("Error ", error);
+				})
+		});
 
 	player.addEventListener('play', () => {
 		window.setInterval(function () {
@@ -67,73 +77,88 @@ window.onload = function () {
 	}, false);
 
 	const superposablesContainer = document.querySelector(".superposables-container");
-	superposablesContainer.onclick = function (event) {
-		const target = event.target;
-		if (target.tagName !== 'IMG')
-			return;
-		setSuperPosToCanvas(target);
-	};
+	if (superposablesContainer)
+		superposablesContainer.onclick = function (event) {
+			const target = event.target;
+			if (target.tagName !== 'IMG')
+				return;
+			setSuperPosToCanvas(target);
+		};
 
 	function setSuperPosToCanvas(img) {
-		const id = img.id;
 		currentPos.x = canvas.width / 2;
 		currentPos.y = canvas.height / 2;
 		superposable.img = img;
+		superposable.id = img.id;
 	}
 
 	function addSuperPosable() {
 		if (!superposable.img)
 			return;
 		const {x, y} = currentPos;
-		context.drawImage(superposable.img, x - superposable.img.width / 2, y - superposable.img.height / 2);
+		const {img, scale} = superposable;
+		const width = img.width * scale;
+		const height = img.height * scale;
+
+		context.drawImage(img, x - (width / 2), y - (height / 2), width, height);
 	}
 
 	canvas.onmousedown = function (e) {
 		const rect = canvas.getBoundingClientRect();
 		const mouseX = e.pageX - rect.left;
 		const mouseY = e.pageY - rect.top;
-		// debugger;
 		const {x, y} = currentPos;
 		const {width, height} = superposable.img;
+		const halfWidth = width * superposable.scale / 2;
+		const halfHeight = height * superposable.scale / 2;
 
-		// debugger;
-		// if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= x + height)
-		// 	superposable.isDraggable = true
-
-		const halfWidth = superposable.img.width / 2;
-		const halfHeight = superposable.img.height / 2;
-		// debugger;
-		if (mouseX >= (currentPos.x - halfWidth) &&
-			mouseX <= (currentPos.x + halfWidth) &&
-			mouseY >= (currentPos.y - halfHeight) &&
-			mouseY <= (currentPos.y + halfHeight)) {
+		if (mouseX >= (x - halfWidth) &&
+			mouseX <= (x + halfWidth) &&
+			mouseY >= (y - halfHeight) &&
+			mouseY <= (y + halfHeight)) {
 			superposable.isDraggable = true;
 		}
-		// debugger;
 	};
 
-	canvas.onmouseup = function (e) {
+	canvas.onmouseup = function () {
 		superposable.isDraggable = false;
 	};
-	canvas.onmouseout = function(e) {
+
+	canvas.onmouseout = function () {
 		superposable.isDraggable = false;
 	};
-	canvas.onmousemove = function(e) {
+
+	canvas.onmousemove = function (e) {
+		if (!superposable.isDraggable)
+			return;
+
 		const rect = canvas.getBoundingClientRect();
-		if (superposable.isDraggable) {
-			currentPos.x = e.pageX - rect.left;
-			currentPos.y = e.pageY - rect.top;
-		}
+		currentPos.x = e.pageX - rect.left;
+		currentPos.y = e.pageY - rect.top;
 	};
+
+	// canvas.onclick = function (e) {
+	// 	const rect = canvas.getBoundingClientRect();
+	// 	const {x, y} = currentPos;
+	//
+	// 	console.log(x, shiftX, y, shiftY);
+	// };
+	canvas.onmousewheel = function (e) {
+		const delta = e.wheelDelta;
+
+		if (delta > 0 && superposable.scale <= 3)
+			superposable.scale += 0.1;
+		else if (delta < 0 && superposable.scale >= 0.3)
+			superposable.scale -= 0.1;
+	};
+
+	function renderCanvas() {
+		canvasSize.width = canvas.parentElement.offsetWidth;
+		canvasSize.height = canvasSize.width * 0.5625;
+		canvas.width = canvasSize.width;
+		canvas.height = canvasSize.height;
+	}
+
+	window.onresize = renderCanvas;
 };
 
-function renderCanvas() {
-	canvasSize.width = canvas.parentElement.offsetWidth;
-	canvasSize.height = canvasSize.width * 0.5625;
-
-
-	canvas.width = canvasSize.width;
-	canvas.height = canvasSize.height;
-}
-
-window.onresize = renderCanvas;

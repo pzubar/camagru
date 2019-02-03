@@ -6,6 +6,11 @@
 			'controller' => 'main',
 			'action' => 'index'
 		],
+
+		'posts' => [
+			'controller' => 'main',
+			'action' => 'posts'
+		],
 		
 		'logout' => [
 			'controller' => 'main',

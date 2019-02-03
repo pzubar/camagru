@@ -28,16 +28,22 @@
 		}
 
 		.superposable-image:first-child {
-			/*height: 128px;*/
 			border: 0;
 			text-align: center;
 			color: #ed969e;
+		}
+
+		#snap {
+			margin-top: 10px;
+		}
+		.new-photos-container canvas {
+			margin: 25px auto;
 		}
 	</style>
 </head>
 <body>
 
-<div class="container">
+<div class="container new-photos-container">
 	<div class="row justify-content-md-center">
 		<div class="col-md-10">
 			<video id="video" width="1600" height="900" autoplay style="display: none"></video>
@@ -47,20 +53,19 @@
 
 			<h6>Superposable images:</h6>
 			<div class="superposables-container">
-				<!--					--><?php //foreach ($photos as $val): ?>
 				<div class="col-md-2 col-xs-4 col-sm-4 superposable-image">
 					<i class="fas fa-2x fa-ban"></i>
 				</div>
 				<?php foreach ($superposables as $val): ?>
 					<div class="col-md-2 col-xs-4 col-sm-4 superposable-image">
-						<img id="sp-<?php echo  $val['id'] ?>"
+						<img id="sp-<?php echo $val['id'] ?>"
 							 src="/images/superposables/<?php echo $val['filename'] ?>" alt="">
 					</div>
 				<?php endforeach; ?>
 			</div>
 		</div>
 		<div class="col-md-10">
-			<button id="snap" class="btn btn-dark">Snap Photo</button>
+			<button id="snap" class="btn btn-outline-primary btn-lg btn-block">Snap Photo</button>
 		</div>
 	</div>
 </div>

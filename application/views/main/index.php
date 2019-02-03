@@ -43,3 +43,5 @@
 		</div>
 	<?php endforeach;
 ?>
+
+<script src="/public/js/index.js"></script>

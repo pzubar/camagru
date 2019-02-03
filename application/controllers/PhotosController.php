@@ -14,7 +14,7 @@ class PhotosController extends Controller
 //            'news' => $result
 //        ];
 //        debug(gd_info());
-		$this->view->render('New Photo');
+
 //        $dest = imagecreatefrompng('application/controllers/b.png');
 //        $src = imagecreatefromjpeg('application/controllers/a.jpg');
 //
@@ -29,6 +29,14 @@ class PhotosController extends Controller
 //        debug($dest);
 //        imagedestroy($dest);
 //        imagedestroy($src);
+
+		$superPosables = $this->model->getSuperPosables();
+//		debug($superPosables);
+		$vars = [
+			'photos' => $superPosables
+		];
+		$this->view->render('New Photo', $vars);
+
 	}
 
 

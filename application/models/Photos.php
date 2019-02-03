@@ -44,4 +44,8 @@ class Photos extends Model
     		VALUES (:author_id, :filename, :postdate, 0)', $params);
 	}
 
+	public function getSuperPosables() {
+		$result = $this->db->row('SELECT * FROM superposables', []);
+		return $result;
+	}
 }

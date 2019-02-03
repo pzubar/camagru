@@ -36,19 +36,15 @@
 
 			<h6>Superposable images:</h6>
 			<div class="superposables-container">
-				<!--				<div>-->
 				<!--					--><?php //foreach ($photos as $val): ?>
 				<?php
 					$val = $photos[0];
 					for ($i = 0; $i < 20; $i++): ?>
-						<!--						<div class="">-->
 						<div class="col-md-2 superposable-image">
 							<img id="sp-<?php echo $i ?>"
 								 src="/images/superposables/<?php echo $val['filename'] ?>" alt="">
 						</div>
-						<!--						</div>-->
 					<?php endfor; ?>
-				<!--				</div>-->
 			</div>
 		</div>
 		<div class="col-md-10">

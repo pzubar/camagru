@@ -13,7 +13,7 @@
 //		}
 		
 		public function getPosts() {
-			$result = $this->db->row('SELECT posts.*, username FROM posts INNER JOIN users ON posts.author_id = users.id');
+			$result = $this->db->row('SELECT posts.*, username FROM posts INNER JOIN users ON posts.author_id = users.id ORDER BY postdate DESC');
 //			$result = $this->db->row('SELECT h1, description FROM news');
 //			$result = "hello";
 			return $result;

@@ -2,10 +2,10 @@
 <html lang="en">
 <?php require_once 'header.php' ?>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light justify-content-between">
 	<a class="navbar-brand" href="/">
 		<img src="/public/img/camera.png" width="30" height="30" class="d-inline-block align-top" alt="">
-		Camagru
+		<b>CAMAGRU<b>
 	</a>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

@@ -13,14 +13,13 @@ use application\core\Controller;
 class MainController extends Controller
 {
 	public function indexAction() {
-		$this->view->render('Home');
+		$postsNum = $this->model->getPostsNum();
+		$this->view->render('Home', ['postsNum' => $postsNum]);
 	}
 
 	public function postsAction() {
-		$result = $this->model->getPosts();
-//		$vars = [
-//			'posts' => $result
-//		];
+
+		$result = $this->model->getPosts('1');
 		exit(json_encode(['status' => 'success', 'message' => json_encode($result)]));
 	}
 

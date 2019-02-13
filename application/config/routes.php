@@ -7,7 +7,7 @@
 			'action' => 'index'
 		],
 
-		'posts' => [
+		'posts(\?.*)' => [
 			'controller' => 'main',
 			'action' => 'posts'
 		],

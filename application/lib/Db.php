@@ -11,7 +11,7 @@ class Db
 	 * @var PDO
 	 */
 	protected $db;
-	
+
 	/**
 	 * initialization of database connection
 	 */
@@ -51,8 +51,8 @@ class Db
 	    $result = $this->query($sql, $params);
 	    return $result->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    
+
+
 
 	public function column(string $sql, array $params)
 	{

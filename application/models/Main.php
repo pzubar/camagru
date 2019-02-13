@@ -12,10 +12,10 @@
 //			debug($this->db);
 //		}
 		
-		public function getPosts() {
-			$result = $this->db->row('SELECT posts.*, username FROM posts INNER JOIN users ON posts.author_id = users.id ORDER BY postdate DESC');
-//			$result = $this->db->row('SELECT h1, description FROM news');
-//			$result = "hello";
+		public function getPosts(string $page) {
+			$limit = 10;
+			$offset = (intval($page) - 1) * $limit;
+			$result = $this->db->row('SELECT posts.*, username FROM posts INNER JOIN users ON posts.author_id = users.id ORDER BY postdate DESC LIMIT ' . $limit . ' OFFSET '. $offset);
 			return $result;
 		}
 	}

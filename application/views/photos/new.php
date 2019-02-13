@@ -69,7 +69,7 @@
 		</div>
 	</div>
 </div>
-
+<script src="/public/js/testFace.js"></script>
 <script src="/public/js/new_photo.js"></script>
 </body>
 </html>

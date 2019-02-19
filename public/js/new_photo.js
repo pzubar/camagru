@@ -8,7 +8,7 @@ window.onload = function () {
 		scale: 1,
 		id: null
 	};
-	const faceDetector = new window.FaceDetector();
+	const faceDetector =  (window.FaceDetector) ? new window.FaceDetector() : undefined;
 	var scale = 1;
 	/**
 	 * superposable center position
@@ -20,28 +20,14 @@ window.onload = function () {
 	};
 	const canvasSize = {};
 
-	navigator.getMedia = (navigator.getUserMedia ||
-		navigator.webkitGetUserMedia ||
-		navigator.mozGetUserMedia ||
-		navigator.msGetUserMedia);
-
-	navigator.getMedia(
-		{
-			video: true,
-			audio: false
-		},
-		function (stream) {
-			if (navigator.mozGetUserMedia) {
-				player.mozSrcObject = stream;
-			} else {
-				player.srcObject = stream;
-			}
+	navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+		.then(stream => {
+			player.srcObject = stream;
 			player.play();
-		},
-		function (err) {
-
-		}
-	);
+		})
+		.catch(error => {
+			console.log(error);
+		});
 
 	renderCanvas();
 

@@ -8,6 +8,8 @@ window.onload = function () {
 		scale: 1,
 		id: null
 	};
+	const faceDetector = new window.FaceDetector();
+	var scale = 1;
 	/**
 	 * superposable center position
 	 * @type {{x: number, y: number}}
@@ -42,6 +44,7 @@ window.onload = function () {
 	);
 
 	renderCanvas();
+
 	const snapButton = document.getElementById("snap");
 	if (snapButton)
 		snapButton.addEventListener("click", function () {
@@ -71,8 +74,28 @@ window.onload = function () {
 
 	player.addEventListener('play', () => {
 		window.setInterval(function () {
+			// context.clearRect(0, 0, canvas.width, canvas.height);
 			context.drawImage(player, 0, 0, canvasSize.width, canvasSize.height);
-			addSuperPosable()
+			addSuperPosable();
+			// faceDetector.detect(canvas)
+			// 	.then(faces => {
+			// 		console.log(faces);
+			// 		if (!faces || !faces.length)
+			// 			return;
+			// 		// context.lineWidth = 2;
+			// 		// context.strokeStyle = 'red';
+			// 		for (let face of faces) {
+			// 			context.beginPath();
+			// 			context.rect(Math.floor(face.boundingBox.x * scale),
+			// 				Math.floor(face.boundingBox.y * scale),
+			// 				Math.floor(face.boundingBox.width * scale),
+			// 				Math.floor(face.boundingBox.height * scale));
+			// 			context.stroke();
+			// 			context.closePath();
+			// 		}
+			// 		faces.map((face) => {console.log(face.boundingBox.x, face.boundingBox.y)})
+			// 	})
+			// 	.catch((error) => {debugger});
 		}, 25);
 	}, false);
 
@@ -86,10 +109,30 @@ window.onload = function () {
 		};
 
 	function setSuperPosToCanvas(img) {
-		currentPos.x = canvas.width / 2;
-		currentPos.y = canvas.height / 2;
-		superposable.img = img;
-		superposable.id = img.id;
+		superposable.img = null;
+		superposable.id = null;
+		if (faceDetector)
+			faceDetector.detect(canvas)
+				.then(faces => {
+					console.log(faces);
+					if (!faces || !faces.length)
+						return;
+					const {boundingBox} = faces[0];
+					const {x, y, width, height} = boundingBox;
+					superposable.img = img;
+					superposable.id = img.id;
+					superposable.scale = width / img.width + 0.5;
+					currentPos.x = x + width / 2;
+					currentPos.y = y + height / 2;
+
+				})
+				.catch((error) => {console.log(error)});
+		else {
+			currentPos.x = canvas.width / 2;
+			currentPos.y = canvas.height / 2;
+			superposable.img = img;
+			superposable.id = img.id;
+		}
 	}
 
 	function addSuperPosable() {
@@ -104,6 +147,8 @@ window.onload = function () {
 	}
 
 	canvas.onmousedown = function (e) {
+		if (!superposable.img)
+			return;
 		const rect = canvas.getBoundingClientRect();
 		const mouseX = e.pageX - rect.left;
 		const mouseY = e.pageY - rect.top;
@@ -146,7 +191,7 @@ window.onload = function () {
 	canvas.onmousewheel = function (e) {
 		const delta = e.wheelDelta;
 
-		if (delta > 0 && superposable.scale <= 3)
+		if (delta > 0 && superposable.scale <= 4)
 			superposable.scale += 0.1;
 		else if (delta < 0 && superposable.scale >= 0.3)
 			superposable.scale -= 0.1;

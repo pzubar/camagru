@@ -24,7 +24,7 @@
 </style>
 
 <script>
-	window.postsNum = <?php    echo $postsNum    ?>;
+	window.postsNum = <?php echo $postsNum ?>;
 </script>
 <div id="wrapper" style="height: calc(100vh - 60px); overflow: auto;">
 	<div id="publications-container">

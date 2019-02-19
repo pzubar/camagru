@@ -34,3 +34,5 @@
         </div>
     </div>
 </div>
+
+<script src="/public/js/login_page.js"></script>

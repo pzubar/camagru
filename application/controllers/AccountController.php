@@ -17,7 +17,7 @@
 				} catch (Exception $exception) {
 					$this->view->message('error', $exception->getMessage());
 				}
-				$this->view->message('success', 'message');
+				$this->view::redirect('/');
 			}
 			if ($message) {
 				if ($message === "check-email")

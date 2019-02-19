@@ -74,28 +74,8 @@ window.onload = function () {
 
 	player.addEventListener('play', () => {
 		window.setInterval(function () {
-			// context.clearRect(0, 0, canvas.width, canvas.height);
 			context.drawImage(player, 0, 0, canvasSize.width, canvasSize.height);
 			addSuperPosable();
-			// faceDetector.detect(canvas)
-			// 	.then(faces => {
-			// 		console.log(faces);
-			// 		if (!faces || !faces.length)
-			// 			return;
-			// 		// context.lineWidth = 2;
-			// 		// context.strokeStyle = 'red';
-			// 		for (let face of faces) {
-			// 			context.beginPath();
-			// 			context.rect(Math.floor(face.boundingBox.x * scale),
-			// 				Math.floor(face.boundingBox.y * scale),
-			// 				Math.floor(face.boundingBox.width * scale),
-			// 				Math.floor(face.boundingBox.height * scale));
-			// 			context.stroke();
-			// 			context.closePath();
-			// 		}
-			// 		faces.map((face) => {console.log(face.boundingBox.x, face.boundingBox.y)})
-			// 	})
-			// 	.catch((error) => {debugger});
 		}, 25);
 	}, false);
 
@@ -103,6 +83,12 @@ window.onload = function () {
 	if (superposablesContainer)
 		superposablesContainer.onclick = function (event) {
 			const target = event.target;
+
+			if (target.id === 'remove-super-pos') {
+				superposable.img = null;
+				superposable.id = null;
+				return;
+			}
 			if (target.tagName !== 'IMG')
 				return;
 			setSuperPosToCanvas(target);
@@ -124,7 +110,6 @@ window.onload = function () {
 					superposable.scale = width / img.width + 0.5;
 					currentPos.x = x + width / 2;
 					currentPos.y = y + height / 2;
-
 				})
 				.catch((error) => {console.log(error)});
 		else {
@@ -182,12 +167,6 @@ window.onload = function () {
 		currentPos.y = e.pageY - rect.top;
 	};
 
-	// canvas.onclick = function (e) {
-	// 	const rect = canvas.getBoundingClientRect();
-	// 	const {x, y} = currentPos;
-	//
-	// 	console.log(x, shiftX, y, shiftY);
-	// };
 	canvas.onmousewheel = function (e) {
 		const delta = e.wheelDelta;
 

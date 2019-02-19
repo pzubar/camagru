@@ -39,6 +39,13 @@
 		.new-photos-container canvas {
 			margin: 25px auto;
 		}
+
+		#remove-super-pos {
+			cursor: pointer;
+		}
+		.superposable-image img {
+			cursor: pointer;
+		}
 	</style>
 </head>
 <body>
@@ -54,7 +61,7 @@
 			<h6>Superposable images:</h6>
 			<div class="superposables-container">
 				<div class="col-md-2 col-xs-4 col-sm-4 superposable-image">
-					<i class="fas fa-2x fa-ban"></i>
+					<i class="fas fa-2x fa-ban" id="remove-super-pos"></i>
 				</div>
 				<?php foreach ($superposables as $val): ?>
 					<div class="col-md-2 col-xs-4 col-sm-4 superposable-image">

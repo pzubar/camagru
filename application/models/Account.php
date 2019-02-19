@@ -96,4 +96,7 @@ class Account extends Model
 		return $result;
 	}
 
+	public function remindPassword() {
+
+	}
 }

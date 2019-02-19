@@ -3,7 +3,11 @@
         height: 100vh;
         display: flex;
         align-items: center;
+		margin-top: -55px;
     }
+	p {
+		margin-bottom: 0;
+	}
 </style>
 
 <div class="container">
@@ -20,7 +24,9 @@
                 </div>
                 <div class="form-group">
                     <input class="form-control" id="password" type="password" name="password" required placeholder="Password">
+					<p><a href="/account/remind-password">Forgot password?</a></p>
                 </div>
+
                 <button class="btn btn-outline-primary form-control" type="submit">Sign In</button>
             </form>
             <hr>

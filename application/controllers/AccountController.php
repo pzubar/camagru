@@ -9,6 +9,8 @@
 	{
 		public function loginAction($message = null)
 		{
+			if (isset($_SESSION['logged_user']))
+				$this->view::redirect('/');
 			if (!empty($_POST) && !empty($_POST['login']) && !empty($_POST['password'])) {
 				try {
 					$this->model->loginUser($_POST['login'], $_POST['password']);
@@ -31,6 +33,8 @@
 
 		public function registerAction()
 		{
+			if (isset($_SESSION['logged_user']))
+				$this->view::redirect('/');
 			if (!empty($_POST)) {
 				if (!empty($_POST['email']) && !empty($_POST['login'])) {
 					if ($this->model->checkRegisterData($_POST['email'], $_POST['login'])) {
@@ -53,9 +57,12 @@
 				$this->view::redirect('/');
 		}
 
-		public function remindPassword()
+		public function remindPasswordAction()
 		{
-
+			if (isset($_SESSION['logged_user']))
+				$this->view::redirect('/');
+			$this->view->render('Remind password');
 		}
+
 
 	}

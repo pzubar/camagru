@@ -26,6 +26,11 @@
 			'controller' => 'account',
 			'action' => 'auth',
 		],
+
+		'account/remind-password' => [
+			'controller' => 'account',
+			'action' => 'remindPassword',
+		],
 		
 		'account/register' => [
 			'controller' => 'account',

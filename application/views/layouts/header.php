@@ -26,5 +26,11 @@
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="msapplication-TileImage" content="/public/img/ms-icon-144x144.png">
 	<meta name="theme-color" content="#ffffff">
+	<style>
+		.nav-top-buttons a, .nav-title {
+			padding-left: 10px;
+			color: #333333;
+		}
+	</style>
 </head>
 

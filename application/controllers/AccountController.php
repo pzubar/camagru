@@ -24,6 +24,8 @@
 					$message = "Check your email, we sent an account confirmation letter!";
 				else if ($message === "activation-success")
 					$message = "Your account was successfully activated";
+				else if ($message === "remind-success")
+					$message = "Check your email, we sent an instructions letter!";
 				else {
 					$this->view->errorCode(404);
 				}
@@ -57,11 +59,24 @@
 				$this->view::redirect('/');
 		}
 
-		public function remindPasswordAction()
+		public function remindPasswordAction($hash = null)
 		{
 			if (isset($_SESSION['logged_user']))
 				$this->view::redirect('/');
-			$this->view->render('Remind password');
+			if ($hash) {
+				$this->view->render('Reset password', ['isset_hash' => true]);
+			}
+
+			if (!empty($_POST['email'])) {
+				try {
+					$this->model->remindPassword($_POST['email']);
+				}
+				catch (Exception $exception) {
+					debug($exception);
+				}
+				$this->view::redirect('/account/login/remind-success');
+			}
+			$this->view->render('Reset password');
 		}
 
 

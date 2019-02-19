@@ -27,7 +27,7 @@
 			'action' => 'auth',
 		],
 
-		'account/remind-password' => [
+		'account/remind-password(/[a-z0-9]+)?' => [
 			'controller' => 'account',
 			'action' => 'remindPassword',
 		],

@@ -17,7 +17,7 @@
 					<label for="email"></label>
 					<input class="form-control" id="email" type="text" name="email" placeholder="E-mail" required>
 				</div>
-				<button class="btn btn-info" type="submit">Remind password</button>
+				<button class="btn btn-info" type="submit">Reset password</button>
 			</form>
 		</div>
 	</div>

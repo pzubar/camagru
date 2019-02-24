@@ -60,5 +60,7 @@
 			];
 			$this->db->query('INSERT INTO comments (author_id, comment_text, postdate, post_id)
 				VALUES (:author_id, :comment_text, :postdate, :post_id)', $params);
+			return (true);
+			//$result = $this->db->row('SELECT posts.*, username, comment_text FROM posts INNER JOIN users ON posts.author_id = users.id INNER JOIN comments ON comments.author_id = users.id ORDER BY postdate DESC LIMIT ' . $limit . ' OFFSET ' . $offset);
 		}
 	}

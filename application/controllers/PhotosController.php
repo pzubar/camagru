@@ -1,13 +1,14 @@
 <?php
 
-	namespace application\controllers;
+namespace application\controllers;
 
-	use application\core\Controller;
+use application\core\Controller;
+use Exception;
 
-	class PhotosController extends Controller
-	{
-		public function newAction()
-		{
+class PhotosController extends Controller
+{
+    public function newAction()
+    {
 //  https://time2hack.com/2018/08/upload-files-to-php-backend-using-fetch-formdata/!!!
 //        $result = $this->model->getNews();
 //        $vars = [
@@ -30,40 +31,44 @@
 //        imagedestroy($dest);
 //        imagedestroy($src);
 
-			$superPosables = $this->model->getSuperPosables();
+        $superPosables = $this->model->getSuperPosables();
 //		debug($superPosables);
-			$vars = [
-				'superposables' => $superPosables
-			];
-			$this->view->render('New Photo', $vars);
+        $vars = [
+            'superposables' => $superPosables
+        ];
+        $this->view->render('New Photo', $vars);
 
-		}
+    }
 
 
-		public function createAction()
-		{
-			if (!isset($_SESSION['logged_user']) || !$_SESSION['logged_user']['is_activated'])
-				exit(json_encode(['status' => 'error', 'message' => 'You have not yet activated your account']));
-			$fileName = $this->model->createPhoto();
-			if (!$fileName)
-				exit(json_encode(['status' => 'error', 'message' => 'Photo was not saved']));
-			$userID = $_SESSION['logged_user']['id'];
-			$this->model->savePhotoNameToUserTable($fileName, $userID);
-			$this->view->location("/");
-		}
+    public function createAction()
+    {
+        if (!isset($_SESSION['logged_user']) || !$_SESSION['logged_user']['is_activated'])
+            exit(json_encode(['status' => 'error', 'message' => 'You have not yet activated your account']));
+        $fileName = $this->model->createPhoto();
+        if (!$fileName)
+            exit(json_encode(['status' => 'error', 'message' => 'Photo was not saved']));
+        $userID = $_SESSION['logged_user']['id'];
+        $this->model->savePhotoNameToUserTable($fileName, $userID);
+        $this->view->location("/");
+    }
 
-		public function commentAction()
-		{
-			if (!isset($_SESSION['logged_user']))
-				$this->view->message('redirect', "/account/login");
-			if (!isset($_SESSION['logged_user']) || !$_SESSION['logged_user']['is_activated'])
-				$this->view->message('error', 'You have not yet activated your account');
-			if (isset($_POST['post-id']) || isset($_POST['comment'])) {
-				if ($this->model->commentPost($_POST['comment'], $_POST['post-id'], $_SESSION['logged_user']['id']))
-					$this->view->message('success', "Post commented");
-				else
-					$this->view->message('error', "Something went wrong");
-			}
-		}
+    public function commentAction()
+    {
+        if (!isset($_SESSION['logged_user']))
+            $this->view->message('redirect', "/account/login");
+        if (!isset($_SESSION['logged_user']) || !$_SESSION['logged_user']['is_activated'])
+            $this->view->message('error', 'You have not yet activated your account');
+        if (isset($_POST['post-id']) || isset($_POST['comment'])) {
+            try {
+                if ($this->model->commentPost($_POST['comment'], $_POST['post-id'], $_SESSION['logged_user']['id']))
+                    $this->view->message('success', "Post commented");
+                else
+                    $this->view->message('error', "Something went wrong");
+            } catch (Exception $e) {
+                $this->view->message('error', $e->getMessage());
+            }
+        }
+    }
 
-	}
+}

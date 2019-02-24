@@ -69,7 +69,6 @@ class AccountController extends Controller
             try {
                 $this->model->changePassword($_POST['hash'], $_POST['password']);
                 $this->view::redirect('/account/login/change-success');
-//                $this->view->message('redirect', 'success');
             } catch (Exception $exception) {
                 $this->view->message('error', $exception->getMessage());
             }
@@ -88,5 +87,10 @@ class AccountController extends Controller
         $this->view->render('Reset password');
     }
 
+    public function settingsAction()
+    {
+        if (!isset($_SESSION['logged_user']))
+            $this->view::redirect('/account/login');
 
+    }
 }

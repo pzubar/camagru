@@ -31,6 +31,15 @@
 			padding-left: 10px;
 			color: #333333;
 		}
+        p {
+            margin-bottom: 1px;
+        }
+        .comment-form {
+            margin-bottom: 1px;
+        }
+        .hidden {
+            display: none;
+        }
 	</style>
 </head>
 

@@ -124,6 +124,5 @@ class Account extends Model
         if (!$result) {
             throw new Exception('Something went wrong!');
         }
-
     }
 }

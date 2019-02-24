@@ -6,12 +6,6 @@
 
 	class Main extends Model
 	{
-
-//		public function __construct()
-//		{
-//			parent::__construct();
-//			debug($this->db);
-//		}
 		public function getPostsNum()
 		{
 			$result = $this->db->column('SELECT COUNT(id)  FROM posts', []);

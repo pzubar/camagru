@@ -1,55 +1,57 @@
 <?php
+	return array(
+		'' => [
+			'controller' => 'main',
+			'action' => 'index'
+		],
 
-return array(
+		'posts(\?.*)' => [
+			'controller' => 'main',
+			'action' => 'posts'
+		],
 
-    '' => [
-        'controller' => 'main',
-        'action' => 'index'
-    ],
+		'logout' => [
+			'controller' => 'main',
+			'action' => 'logout'
+		],
 
-    'posts(\?.*)' => [
-        'controller' => 'main',
-        'action' => 'posts'
-    ],
+		'account/settings' => [
+			'controller' => 'account',
+			'action' => 'settings',
+		],
 
-    'logout' => [
-        'controller' => 'main',
-        'action' => 'logout'
-    ],
+		'account/login(/[a-z-]*)?' => [
+			'controller' => 'account',
+			'action' => 'login',
+		],
 
-    'account/settings' => [
-        'controller' => 'account',
-        'action' => 'settings',
-    ],
+		'account/auth/[a-z0-9]+' => [
+			'controller' => 'account',
+			'action' => 'auth',
+		],
 
-    'account/login(/[a-z-]*)?' => [
-        'controller' => 'account',
-        'action' => 'login',
-    ],
+		'account/remind-password(/[a-z0-9]+)?' => [
+			'controller' => 'account',
+			'action' => 'remindPassword',
+		],
 
-    'account/auth/[a-z0-9]+' => [
-        'controller' => 'account',
-        'action' => 'auth',
-    ],
+		'account/register' => [
+			'controller' => 'account',
+			'action' => 'register',
+		],
 
-    'account/remind-password(/[a-z0-9]+)?' => [
-        'controller' => 'account',
-        'action' => 'remindPassword',
-    ],
+		'photos/new' => [
+			'controller' => 'photos',
+			'action' => 'new',
+		],
 
-    'account/register' => [
-        'controller' => 'account',
-        'action' => 'register',
-    ],
+		'photos/create' => [
+			'controller' => 'photos',
+			'action' => 'create',
+		],
 
-    'photos/new' => [
-        'controller' => 'photos',
-        'action' => 'new',
-    ],
-
-    'photos/create' => [
-        'controller' => 'photos',
-        'action' => 'create',
-    ],
-
-);
+		'photos/comment' => [
+			'controller' => 'photos',
+			'action' => 'comment',
+		],
+	);

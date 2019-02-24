@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="en">
-<?php require_once 'header.php' ?>
+<head>
+	<title><?php echo "Camagru" . (isset($title) ? (" | " . $title) : '') ?></title>
+	<?php require_once 'header.php' ?>
+</head>
 <body>
 <nav class="navbar sticky-top navbar-light bg-light justify-content-between">
 	<a class="navbar-brand" href="/" style="display: flex">

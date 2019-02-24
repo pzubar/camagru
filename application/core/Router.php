@@ -58,9 +58,9 @@
 		public function run()
 		{
 			if ($this->match()) {
-				$controller = $this->params['controller'];
-				if (!isset($_SESSION['logged_user']) && $controller !== 'main' && $controller !== 'account')
-					View::redirect('/');
+//				$controller = $this->params['controller'];
+//				if (!isset($_SESSION['logged_user']) && $controller !== 'main' && $controller !== 'account')
+//					View::redirect('/');
 				$path = 'application\controllers\\' . ucfirst($this->params['controller']) . 'Controller';
 				if (class_exists($path)) {
 					$action = $this->params['action'] . 'Action';

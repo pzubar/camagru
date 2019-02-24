@@ -3,7 +3,6 @@ const formNode = document.querySelector('#login-page-form');
 formNode.onsubmit = function (e) {
 	e.preventDefault();
 
-
 	fetch(this.action, {
 		method: this.method,
 		body: new FormData(this),

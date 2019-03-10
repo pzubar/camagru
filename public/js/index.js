@@ -6,19 +6,14 @@ window.onload = function () {
 	const wrapper = document.getElementById("wrapper");
 	const container = document.querySelector('#publications-container');
 
-
 	function renderPublications(publications) {
-		publications.map((item, index) => {
-			console.log(item);
-			const {author_name, postdate, filename, is_liked, likes_count, id, cmt_author_name} = item;
+		publications.map((item) => {
+			const {author_name, postdate, filename, likes_count, id, comments, likes_authors: likes} = item;
+			const is_liked = (window.$uId && likes.includes(window.$uId));
 			let commentsHTML = '';
-			for (let i = index; i < publications.length && publications[i].id === id; i++) {
-				const {comment_text} = publications[i];
-				if (comment_text)
-					commentsHTML += `<p><b>${cmt_author_name}</b> ${i}</p>`;
-				if (i !== index)
-					publications.splice(i, 1);
-			}
+			comments.map(i => {
+				commentsHTML += `<p><i>${i['author']}:</i> ${i[['text']]}</p>`;
+			});
 			container.innerHTML +=
 				`<div class="container">
 					<div class="row justify-content-md-center">
@@ -34,19 +29,19 @@ window.onload = function () {
 								</span>
 							</div>
 							<img src='${filename}'>
-							<span style="padding: 5px">
+							<div class="container">
 							    <i class="far fa-comment comment-button" style="margin-right: 3px;cursor: pointer"></i>
 							    <i class="fa${is_liked ? 's' : 'r'} fa-heart like-button" style="cursor: pointer"></i>
 							    <span style="padding: 0 2px ">${likes_count}</span>
-							</span>
-							<div class="comment-container hidden"  style="margin: 3px;">
+							</div>
+							<div class="comment-container hidden container" >
 								<form action="/photos/comment" method="post" class="comment-form" onsubmit="submitCommentForm(event)">
 									<textarea rows="4" style="min-height: 30px;" class="form-control" name="comment" placeholder="Comment..."></textarea>
 									<input type="hidden" name="post-id" value="${id}">
 									<button class="btn btn-sm btn-outline-primary" style="margin-top: 5px" type="submit" onclick="">Comment</button>
 								</form>
 							</div>
-							<div class="comments-container">${commentsHTML}</div>
+							<div class="comments-container container">${commentsHTML}</div>
 						</div>
 					</div>
 				</div>`
@@ -65,7 +60,6 @@ window.onload = function () {
 				const publications = JSON.parse(message);
 
 				renderPublications(publications);
-				// console.log(publications);
 			})
 			.catch(error => {
 				console.log("Error ", error);

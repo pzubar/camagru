@@ -122,9 +122,11 @@ function submitCommentForm(event) {
 				alert(response.message);
 			else {
 				const container = target.closest('.post-container');
-				// const con('.comment-container');
 				const formContainer = container.querySelector('.comment-container');
+				const commentsContainer = container.querySelector('.comments-container');
+
 				formContainer.classList.toggle('hidden');
+				commentsContainer.innerHTML += `<p><i>${window.$uName}:</i> ${target[0].value}</p>`;
 			}
 		})
 		.catch(function (err) {

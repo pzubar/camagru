@@ -26,7 +26,8 @@
 <script>
 	window.postsNum = <?php echo $postsNum;   ?>;
     <?php if (isset($_SESSION['logged_user'])): ?>
-	window.$uId = <?php echo $_SESSION['logged_user']['id'] ?>;
+        window.$uId = <?php echo $_SESSION['logged_user']['id'] ?>;
+        window.$uName = "<?php echo $_SESSION['logged_user']['username'] ?>";
     <?php endif; ?>
 </script>
 <div id="wrapper" style="height: calc(100vh - 60px); overflow: auto;">

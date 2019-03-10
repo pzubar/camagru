@@ -53,29 +53,24 @@ FROM (
                       INNER JOIN likes ON likes.post_id = posts.id
                ORDER BY posts.postdate DESC
                LIMIT ' . $limit . ' OFFSET ' . $offset);
-//        echo '<pre>';
-//        var_dump($posts);
-//        echo '</pre>';
-//        foreach ($posts as $key => $value) {
         $length = count($posts);
         for ($key = 0; $key < $length; $key++) {
-//            echo $key;
             if (!isset($posts[$key]['id']))
                 continue;
             $posts[$key]['comments'] = [];
 
             for ($i = $key; isset($posts[$i]) && isset($posts[$i]['id']) && $posts[$i]['id'] === $posts[$key]['id']; $i++) {
                 $elem = $posts[$i];
-                if (!$elem['cmt_author_name'])
+                if (!isset($elem['cmt_author_name']))
                     break;
                 array_push($posts[$key]['comments'], ['author' => $elem['cmt_author_name'], 'text' => $elem['comment_text']]);
                 if ($i !== $key) {
                     array_splice($posts, $i, 1);
                     $length--;
+                    $i--;
                 }
             }
         }
-
         foreach ($posts as $key => $value) {
             $posts[$key]['likes_authors'] = [];
             foreach ($likes as $like) {

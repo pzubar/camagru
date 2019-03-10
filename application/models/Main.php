@@ -14,55 +14,69 @@ class Main extends Model
 
     public function getPosts(string $page)
     {
-//        $limit = 10;
-//        $offset = (intval($page) - 1) * $limit;
-//        $posts = $this->db->row('SELECT posts.*, username FROM posts INNER JOIN users ON posts.author_id = users.id ORDER BY postdate DESC LIMIT ' . $limit . ' OFFSET ' . $offset);
-//        $comments = [];
-//        foreach ($posts as $value) {
-//            $comments[] = $this->db->row('SELECT * FROM comments WHERE post_id = :post_id', ['post_id' => $value['id']]);
-//        }
-
-//            $comments =  $this->db->row('SELECT *,  FROM comments INNER JOIN  ON comments.post_id = users.id ORDER BY postdate DESC LIMIT ' . $limit . ' OFFSET ' . $offset);
-//        $result = [
-//            'posts' => $posts,
-//            'comments' => $comments
-//        ];
-//			return $result;
-//        $result =
-//        return $result;
+        $limit = 10;
+        $offset = (intval($page) - 1) * $limit;
+        $posts = $this->db->row('SELECT
+        POSTS_AND_COMMENTS.*,
+        u.username AS cmt_author_name
+        FROM (
+             SELECT
+                    POSTS.*,
+                    c.author_id AS cmt_author_id,
+                    c.comment_text,
+                    c.postdate  AS cmt_postdate
+             FROM (
+                  SELECT
+                         POSTS_WITH_AUTHORS.*,
+                         COUNT(l.id) AS \'count\'
+                  FROM (
+                       SELECT
+                              p.*,
+                              username as author_name
+                       FROM posts p
+                              INNER JOIN users ON p.author_id = users.id
+                       ORDER BY postdate DESC
+                       LIMIT ' . $limit . ' OFFSET ' . $offset . ') POSTS_WITH_AUTHORS
+                         LEFT JOIN
+                           likes l ON POSTS_WITH_AUTHORS.id = l.post_id
+                  GROUP BY
+                           POSTS_WITH_AUTHORS.id) POSTS
+                    LEFT JOIN comments c ON POSTS.id = c.post_id
+             ) POSTS_AND_COMMENTS
+               LEFT JOIN users u ON cmt_author_id = u.id');
+        return $posts;
     }
 }
 
 /**
  * SELECT
-POSTS_AND_COMMENTS.*,
-u.username AS cmt_author_name
-FROM (
-SELECT
-POSTS.*,
-c.author_id AS cmt_author_id,
-c.comment_text,
-c.postdate  AS cmt_postdate
-FROM (
-SELECT
-A.*,
-COUNT(l.id) AS 'count'
-FROM (
-SELECT
-p.*,
-username as author_name
-FROM posts p
-INNER JOIN users ON p.author_id = users.id
-ORDER BY postdate DESC
-LIMIT 10 OFFSET 0) A
-LEFT JOIN
-likes l ON A.id = l.post_id
-GROUP BY
-A.id) POSTS
-LEFT JOIN comments c ON POSTS.id = c.post_id
-) POSTS_AND_COMMENTS
-LEFT JOIN users u ON cmt_author_id = u.id
-
+ * POSTS_AND_COMMENTS.*,
+ * u.username AS cmt_author_name
+ * FROM (
+ * SELECT
+ * POSTS.*,
+ * c.author_id AS cmt_author_id,
+ * c.comment_text,
+ * c.postdate  AS cmt_postdate
+ * FROM (
+ * SELECT
+ * A.*,
+ * COUNT(l.id) AS 'count'
+ * FROM (
+ * SELECT
+ * p.*,
+ * username as author_name
+ * FROM posts p
+ * INNER JOIN users ON p.author_id = users.id
+ * ORDER BY postdate DESC
+ * LIMIT 10 OFFSET 0) A
+ * LEFT JOIN
+ * likes l ON A.id = l.post_id
+ * GROUP BY
+ * A.id) POSTS
+ * LEFT JOIN comments c ON POSTS.id = c.post_id
+ * ) POSTS_AND_COMMENTS
+ * LEFT JOIN users u ON cmt_author_id = u.id
  */
 
 /*

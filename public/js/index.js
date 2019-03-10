@@ -77,8 +77,11 @@ window.onload = function () {
 
 	window.onclick = function (event) {
 		const target = event.target;
+		const classList = target.classList;
 
-		if (!target.classList.contains("comment-button"))
+		if (classList.contains('.like-button'))
+			handleLikePress(target, classList);
+		if (!classList.contains("comment-button"))
 			return;
 		const container = target.closest('.post-container');
 		if (!container)
@@ -96,13 +99,15 @@ window.onload = function () {
 	};
 };
 
+function handleLikePress(target, classList) {
+	// fetch('')
+}
 
 function submitCommentForm(event) {
-	debugger;
 	const target = event.target;
+	const {action, method} = target;
 	event.preventDefault();
 
-	const {action, method} = target;
 	fetch(action, {
 		method: method,
 		body: new FormData(target),

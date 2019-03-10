@@ -73,12 +73,15 @@ class PhotosController extends Controller
 
     public function likeAction()
     {
-
-    }
-
-    public function unlikeAction()
-    {
-
+        if (isset($_GET['id'])) {
+            try {
+                $result = $this->model->likePost($_GET['id']);
+                $this->view->message('success', $result);
+            }
+            catch (Exception $e) {
+                $this->view->message('error', $e->getMessage());
+            }
+        }
     }
 
 }

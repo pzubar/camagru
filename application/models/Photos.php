@@ -62,4 +62,13 @@ class Photos extends Model
 				VALUES (:author_id, :comment_text, :postdate, :post_id)', $params);
         return (true);
     }
+
+    public function likePost($id)
+    {
+        $params = [
+            'id' => $id
+        ];
+        $result = $this->db->row('SELECT * FROM likes WHERE likes.post_id = :id', $params);
+        return $result;
+    }
 }

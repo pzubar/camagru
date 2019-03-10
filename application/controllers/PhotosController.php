@@ -71,4 +71,14 @@ class PhotosController extends Controller
         }
     }
 
+    public function likeAction()
+    {
+
+    }
+
+    public function unlikeAction()
+    {
+
+    }
+
 }

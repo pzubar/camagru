@@ -11,9 +11,7 @@ window.onload = function () {
 			const {author_name, postdate, filename, likes_count, id, comments, likes_authors: likes} = item;
 			const is_liked = (window.$uId && likes.includes(window.$uId));
 			let commentsHTML = '';
-			comments.map(i => {
-				commentsHTML += `<p><i>${i['author']}:</i> ${i[['text']]}</p>`;
-			});
+			comments.map(i => commentsHTML += `<p><i>${i['author']}:</i> ${i[['text']]}</p>`);
 			container.innerHTML +=
 				`<div class="container">
 					<div class="row justify-content-md-center">
@@ -29,7 +27,7 @@ window.onload = function () {
 								</span>
 							</div>
 							<img src='${filename}'>
-							<div class="container">
+							<div class="container" style="margin: 5px 0">
 							    <i class="far fa-comment comment-button" style="margin-right: 3px;cursor: pointer"></i>
 							    <i class="fa${is_liked ? 's' : 'r'} fa-heart like-button" style="cursor: pointer"></i>
 							    <span style="padding: 0 2px ">${likes_count}</span>
@@ -121,7 +119,13 @@ function submitCommentForm(event) {
 			if (response['status'] && response['status'] === "redirect")
 				window.location.replace(response.message);
 			else if (response['status'] && response['status'] !== "success")
-				alert(response.message)
+				alert(response.message);
+			else {
+				const container = target.closest('.post-container');
+				// const con('.comment-container');
+				const formContainer = container.querySelector('.comment-container');
+				formContainer.classList.toggle('hidden');
+			}
 		})
 		.catch(function (err) {
 			console.log('Fetch Error. ', err);

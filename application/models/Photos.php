@@ -50,6 +50,12 @@ class Photos extends Model
 		return $result;
 	}
 
+	public function getUserPhotos()
+	{
+		$result = $this->db->row('SELECT * FROM posts WHERE author_id = :uid', ['uid' => $_SESSION['logged_user']['id']]);
+		return $result;
+	}
+
 	public function commentPost(string $comment, int $postId, int $userId)
 	{
 		$params = [

@@ -1,4 +1,4 @@
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
 	const player = document.getElementById('video');
 	const canvas = document.getElementById('canvas');
 	const context = canvas.getContext('2d');
@@ -8,8 +8,8 @@ window.onload = function () {
 		scale: 1,
 		id: null
 	};
-	const faceDetector =  (window.FaceDetector) ? new window.FaceDetector() : undefined;
-	var scale = 1;
+	const faceDetector = (window.FaceDetector) ? new window.FaceDetector() : undefined;
+
 	/**
 	 * superposable center position
 	 * @type {{x: number, y: number}}
@@ -20,7 +20,7 @@ window.onload = function () {
 	};
 	const canvasSize = {};
 
-	navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+	navigator.mediaDevices.getUserMedia({video: true, audio: true})
 		.then(stream => {
 			player.srcObject = stream;
 			player.play();
@@ -97,7 +97,9 @@ window.onload = function () {
 					currentPos.x = x + width / 2;
 					currentPos.y = y + height / 2;
 				})
-				.catch((error) => {console.log(error)});
+				.catch((error) => {
+					console.log(error)
+				});
 		else {
 			currentPos.x = canvas.width / 2;
 			currentPos.y = canvas.height / 2;
@@ -170,5 +172,5 @@ window.onload = function () {
 	}
 
 	window.onresize = renderCanvas;
-};
+});
 

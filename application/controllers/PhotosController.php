@@ -32,11 +32,13 @@ class PhotosController extends Controller
 //        imagedestroy($src);
 
 		$superPosables = $this->model->getSuperPosables();
+		$photos = $this->model->getUserPhotos();
 //		debug($superPosables);
 		$vars = [
-			'superposables' => $superPosables
+			'superposables' => $superPosables,
+			'photos' => $photos
 		];
-		$this->view->render('New Photo', $vars);
+		$this->view->render('Capture Photo', $vars);
 
 	}
 

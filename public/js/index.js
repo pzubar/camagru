@@ -29,8 +29,8 @@ window.onload = function () {
 							<img src='${filename}'>
 							<div class="container" style="margin: 5px 0">
 							    <i class="far fa-comment comment-button" style="margin-right: 3px;cursor: pointer"></i>
-							    <i class="fa${is_liked ? 's' : 'r'} fa-heart like-button" style="cursor: pointer"></i>
-							    <span style="padding: 0 2px ">${likes_count}</span>
+							    <i class="fa${is_liked ? 's' : 'r'} fa-heart like-button" style="cursor: pointer" id="${id}"></i>
+							    <span style="padding: 0 2px " class="likes-counter">${likes_count}</span>
 							</div>
 							<div class="comment-container hidden container" >
 								<form action="/photos/comment" method="post" class="comment-form" onsubmit="submitCommentForm(event)">
@@ -79,19 +79,21 @@ window.onload = function () {
 		const target = event.target;
 		const classList = target.classList;
 
-		if (classList.contains('.like-button'))
+		if (classList.contains('like-button'))
 			handleLikePress(target, classList);
 		if (!classList.contains("comment-button"))
 			return;
+
 		const container = target.closest('.post-container');
 		if (!container)
 			return;
+
 		const commentBox = container.querySelector('.comment-container');
 		if (!commentBox)
 			return;
 		commentBox.classList.toggle('hidden');
-		const textarea = commentBox.querySelector('textarea');
 
+		const textarea = commentBox.querySelector('textarea');
 		if (!commentBox.classList.contains("hidden"))
 			textarea.focus();
 		else
@@ -100,7 +102,36 @@ window.onload = function () {
 };
 
 function handleLikePress(target, classList) {
-	// fetch('')
+	const formData = new FormData();
+	formData.append('id', target.id);
+	fetch('/photos/like', {
+		method: 'POST',
+		body: formData,
+	}).then((response) => {
+		if (!response.ok) {
+			throw "Response status was not ok: " + response.status;
+		}
+		else
+			return response.json();
+	})
+		.then(function (response) {
+			if (response['status'] && response['status'] === "redirect") {
+				window.location.replace(response.message);
+				return;
+			}
+			else if (response['status'] && response['status'] !== "success")
+				alert(response.message);
+			else {
+				const likesCounter = target.parentNode.querySelector('.likes-counter');
+
+				likesCounter.innerHTML = String(Number(likesCounter.innerText) + (classList.contains('far') ? 1 : -1));
+				classList.toggle('fas');
+				classList.toggle('far');
+			}
+		})
+		.catch(err => {
+			console.log('Fetch Error. ', err);
+		});
 }
 
 function submitCommentForm(event) {
@@ -119,7 +150,6 @@ function submitCommentForm(event) {
 			else
 				return response.json();
 		})
-
 		.then(function (response) {
 			if (response['status'] && response['status'] === "redirect")
 				window.location.replace(response.message);

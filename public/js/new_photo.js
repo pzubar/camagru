@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
 	const player = document.getElementById('video');
 	const canvas = document.getElementById('canvas');
+	const newCanvas = document.createElement('canvas');
+	const contextClone = newCanvas.getContext('2d');
 	const context = canvas.getContext('2d');
 	const superposable = {
 		img: null,
@@ -34,9 +36,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	const snapButton = document.getElementById("snap");
 	if (snapButton)
 		snapButton.addEventListener("click", function () {
-			snapButton.disabled = true;
+			const {x, y} = currentPos;
+			const {img, scale} = superposable;
+			const w = img.width * scale;
+			const h = img.height * scale;
 			const dataURL = canvas.toDataURL();
-			fetch("/photos/create", {
+			// context.drawImage(img, x - (width / 2), y - (height / 2), width, height);
+			snapButton.disabled = true;
+			fetch(`/photos/create?id=${superposable.id}&x=${x - (w / 2)}&y=${y - (h / 2)}&w=${w}&h=${h}`, {
 				method: "POST",
 				headers: {"Content-Type": "application/upload"},
 				body: dataURL
@@ -44,15 +51,22 @@ document.addEventListener("DOMContentLoaded", function () {
 				.then(response => {
 					if (!response.ok)
 						throw new Error("Error!");
-					return response.json();
+					// return response.json();
+					// return .then(response => response.blob())
+					return response.blob();
 				})
-				.then(response => {
-					const {status, url} = response;
-					if (url)
-						window.location.replace("/");
-					else if (status !== "success")
-						alert(response.message)
+				.then(images => {
+					// Then create a local URL for that image and print it
+					const outside = URL.createObjectURL(images)
+					console.log(outside)
 				})
+				// .then(response => {
+				// 	const {status, url} = response;
+				// 	if (url)
+				// 		window.location.replace("/");
+				// 	else if (status !== "success")
+				// 		alert(response.message)
+				// })
 				.catch(error => {
 					console.log("Error ", error);
 				})
@@ -61,7 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	player.addEventListener('play', () => {
 		window.setInterval(function () {
 			context.drawImage(player, 0, 0, canvasSize.width, canvasSize.height);
+			contextClone.drawImage(player, 0, 0, canvasSize.width, canvasSize.height);
 			addSuperPosable();
+			// moveSuperPosable();
 		}, 25);
 	}, false);
 
@@ -84,11 +100,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		superposable.img = null;
 		superposable.id = null;
 		if (faceDetector)
-			faceDetector.detect(canvas)
+			faceDetector.detect(newCanvas)
 				.then(faces => {
-					console.log(faces);
-					if (!faces || !faces.length)
+					if (!faces || !faces.length) {
+						currentPos.x = canvas.width / 2;
+						currentPos.y = canvas.height / 2;
+						superposable.img = img;
+						superposable.id = img.id;
 						return;
+					}
 					const {boundingBox} = faces[0];
 					const {x, y, width, height} = boundingBox;
 					superposable.img = img;
@@ -109,13 +129,17 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	function addSuperPosable() {
-		if (!superposable.img)
+		if (!superposable.img) {
+			snapButton.disabled = true;
 			return;
+		}
+
 		const {x, y} = currentPos;
 		const {img, scale} = superposable;
 		const width = img.width * scale;
 		const height = img.height * scale;
 
+		snapButton.disabled = false;
 		context.drawImage(img, x - (width / 2), y - (height / 2), width, height);
 	}
 
@@ -169,8 +193,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		canvasSize.height = canvasSize.width * 0.5625;
 		canvas.width = canvasSize.width;
 		canvas.height = canvasSize.height;
+		newCanvas.width = canvasSize.width;
+		newCanvas.height = canvasSize.height;
 	}
 
 	window.onresize = renderCanvas;
 });
-

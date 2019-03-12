@@ -20,6 +20,9 @@ class Photos extends Model
 	 */
 	public function createPhoto()
 	{
+		if (!isset($_GET['id']))
+			return '';
+		$superposableId = $_GET['id'];
 		$contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 
 		if ($contentType === "application/upload") {
@@ -27,8 +30,25 @@ class Photos extends Model
 			$img = str_replace('data:image/png;base64,', '', $content);
 			$img = str_replace(' ', '+', $img);
 			$fileName = '/images/photos/' . md5(uniqid()) . '.png';
-			file_put_contents(ROOT . $fileName, base64_decode($img));
-			return $fileName;
+//			file_put_contents(ROOT . $fileName, base64_decode($img));
+//			return $fileName;
+			$dest = imagecreatefromstring(base64_decode($img));
+			$src = imagecreatefrompng('/images/superposables/mask.png');
+//
+
+			imagealphablending($dest, false);
+			imagesavealpha($dest, true);
+//
+			imagecopymerge($dest, $src, 10, 9, 0, 0, 128, 128, 100); //have to play with these numbers for it to work for you, etc.
+//
+//			header('Content-Type: image/png');
+			imagepng($dest);
+//			imagepng($dest, "/images/photos/file.png");
+//        debug($dest);
+			imagedestroy($dest);
+			imagedestroy($src);
+
+			return '';
 		} else
 			return '';
 	}
@@ -40,8 +60,8 @@ class Photos extends Model
 			'filename' => $fileName,
 			'postdate' => date("Y-m-d H:i:s")
 		];
-		$this->db->query('INSERT INTO posts (author_id, filename, postdate, likes_count)
-    		VALUES (:author_id, :filename, :postdate, 0)', $params);
+		$this->db->query('INSERT INTO posts (author_id, filename, postdate)
+    		VALUES (:author_id, :filename, :postdate)', $params);
 	}
 
 	public function getSuperPosables()
@@ -79,8 +99,7 @@ class Photos extends Model
 		if (isset($result[0])) {
 			$id = $result[0]['id'];
 			$this->db->query('DELETE FROM likes WHERE id = :id', ['id' => $id]);
-		}
-		else
+		} else
 			$this->db->query('INSERT INTO likes (author_id, post_id) VALUES (:uid, :id)', $params);
 		return $result;
 	}

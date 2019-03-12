@@ -45,7 +45,7 @@ return array(
         'action' => 'new',
     ],
 
-    'photos/create' => [
+    'photos/create(\?.*)?' => [
         'controller' => 'photos',
         'action' => 'create',
     ],

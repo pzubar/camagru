@@ -59,6 +59,8 @@
                 <video id="video" width="1600" height="900" autoplay style="display: none"></video>
                 <canvas id="canvas"></canvas>
             </div>
+            <input id="browse" type="file" onchange="previewFiles()" multiple>
+            <div id="preview"></div>
             <div class="col-md-10">
                 <h6>Superposable images:</h6>
                 <div class="superposables-container">
@@ -76,6 +78,7 @@
             <div class="col-md-10">
                 <button id="snap" class="btn btn-outline-primary btn-lg btn-block">Snap Photo</button>
             </div>
+
         </div>
         <div class="col-md-2 col-sm-12 photos-container" style="margin: 10px 0; max-height: 600px; overflow: auto">
             <h6>My photos:</h6>
@@ -88,5 +91,36 @@
 </div>
 <!--<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>-->
 <script src="/public/js/new_photo.js"></script>
+<script>
+	function previewFiles() {
+
+		var preview = document.querySelector('#preview');
+		var files = document.querySelector('input[type=file]').files;
+
+		function readAndPreview(file) {
+
+			// Make sure `file.name` matches our extensions criteria
+			if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+				var reader = new FileReader();
+
+				reader.addEventListener("load", function () {
+					var image = new Image();
+					image.height = 100;
+					image.title = file.name;
+					image.src = this.result;
+					preview.appendChild(image);
+				}, false);
+
+				reader.readAsDataURL(file);
+			}
+
+		}
+
+		if (files) {
+			[].forEach.call(files, readAndPreview);
+		}
+
+	}
+</script>
 </body>
 </html>

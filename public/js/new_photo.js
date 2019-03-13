@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	};
 	const canvasSize = {};
 
-	navigator.mediaDevices.getUserMedia({video: true, audio: true})
+	navigator.mediaDevices.getUserMedia({video: true, audio: false})
 		.then(stream => {
 			player.srcObject = stream;
 			player.play();
@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			const w = img.width * scale;
 			const h = img.height * scale;
 			const dataURL = newCanvas.toDataURL();
-			// context.drawImage(img, x - (width / 2), y - (height / 2), width, height);
+
 			snapButton.disabled = true;
-			fetch(`/photos/create?id=${superposable.id}&x=${x - (w / 2)}&y=${y - (h / 2)}&w=${w}&h=${h}`, {
+			fetch(`/photos/create?id=${superposable.id.substring(3)}&x=${x - (w / 2)}&y=${y - (h / 2)}&w=${w}&h=${h}`, {
 				method: "POST",
 				headers: {"Content-Type": "application/upload"},
 				body: dataURL
@@ -52,8 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					if (!response.ok)
 						throw new Error("Error!");
 					return response.json();
-					// return .then(response => response.blob())
-					// return response.blob();
 				})
 				.then(response => {
 					const {status, url} = response;
@@ -72,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			context.drawImage(player, 0, 0, canvasSize.width, canvasSize.height);
 			contextClone.drawImage(player, 0, 0, canvasSize.width, canvasSize.height);
 			addSuperPosable();
-			// moveSuperPosable();
 		}, 25);
 	}, false);
 

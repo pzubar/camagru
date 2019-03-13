@@ -20,43 +20,33 @@ class Photos extends Model
 	 */
 	public function createPhoto()
 	{
-		if (!isset($_GET['id']))
+		if (!isset($_GET['id']) || !isset($_GET['x']) || !isset($_GET['y']) || !isset($_GET['h']) || !isset($_GET['w']))
 			return '';
-		$superposableId = $_GET['id'];
+//		var_dump($_GET);
 		$contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
-
+		$result = $this->db->row('SELECT filename FROM superposables WHERE id = :id', ['id' => $_GET['id']]);
+//		var_dump($result);
+		if (!isset($result[0]))
+			return '';
 		if ($contentType === "application/upload") {
 			$content = trim(file_get_contents("php://input"));
 			$img = str_replace('data:image/png;base64,', '', $content);
 			$img = str_replace(' ', '+', $img);
-			$fileName = '/images/photos/' . md5(uniqid()) . '.png';
-//			file_put_contents(ROOT . $fileName, base64_decode($img));
-//			return $fileName;
-			$dest = imagecreatefromstring(base64_decode($img));
-			$src = imagecreatefrompng(ROOT . '/images/superposables/mask.png');
-//
-
-			imagealphablending($dest, false);
-			imagesavealpha($dest, true);
-//			debug($_GET);
-//			$img = $this->resize_image($src, (int)$_GET['w'], (int)$_GET['h']);
+			$dst = imagecreatefromstring(base64_decode($img));
+			$src = imagecreatefrompng(ROOT . '/images/superposables/'  .$result[0]['filename']);
 			$thumb = imagecreatetruecolor($_GET['w'], (int)$_GET['h']);
+			$filename = "/images/photos/" . md5(uniqid()) . ".png";
+
+			imagealphablending($dst, false);
+			imagesavealpha($dst, true);
 			imagealphablending($thumb, false);
 			imagesavealpha($thumb, true);
 			imagecopyresized($thumb, $src, 0, 0, 0, 0, $_GET['w'], $_GET['h'], 128, 128);
-			$this->mergePictures($dest, $thumb, (int)$_GET['x'], (int)$_GET['y'], 0, 0, (int)$_GET['w'], (int)$_GET['h'], 100); //have to play with these numbers for it to work for you, etc.
-			$filename = "/images/photos/" . md5(uniqid()) . ".png";
-//			$directory = ROOT . "/images/photos/" . $filename . ".png";
-//			chmod($directory, 0755);
-
-			// this will save your image
-			imagepng($dest, ROOT . $filename, 0, NULL);
-
-//			var_dump($_SERVER);
-			imagedestroy($dest);
+			$this->mergePictures($dst, $thumb, (int)$_GET['x'], (int)$_GET['y'], 0, 0, (int)$_GET['w'], (int)$_GET['h'], 100); //have to play with these numbers for it to work for you, etc.
+			imagepng($dst, ROOT . $filename, 0, NULL);
+			imagedestroy($dst);
+			imagedestroy($thumb);
 			imagedestroy($src);
-//			$this->savePhotoNameToUserTable($filename, $_SESSION['logged_user']['id']);
-
 			return $filename;
 		} else
 			return '';
@@ -64,19 +54,12 @@ class Photos extends Model
 
 	public function mergePictures($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct)
 	{
-		// creating a cut resource
 		$cut = imagecreatetruecolor($src_w, $src_h);
 
-		// copying relevant section from background to the cut resource
 		imagecopy($cut, $dst_im, 0, 0, $dst_x, $dst_y, $src_w, $src_h);
-
-		// copying relevant section from watermark to the cut resource
 		imagecopy($cut, $src_im, 0, 0, $src_x, $src_y, $src_w, $src_h);
-
-		// insert cut resource to destination image
 		imagecopymerge($dst_im, $cut, $dst_x, $dst_y, 0, 0, $src_w, $src_h, $pct);
 	}
-
 
 	public function savePhotoNameToUserTable(string $fileName, string $userId)
 	{
@@ -97,7 +80,8 @@ class Photos extends Model
 
 	public function getUserPhotos()
 	{
-		$result = $this->db->row('SELECT * FROM posts WHERE author_id = :uid', ['uid' => $_SESSION['logged_user']['id']]);
+		$result = $this->db->row('SELECT * FROM posts WHERE author_id = :uid ORDER BY posts.postdate DESC',
+			['uid' => $_SESSION['logged_user']['id']]);
 		return $result;
 	}
 

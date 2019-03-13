@@ -33,25 +33,50 @@ class Photos extends Model
 //			file_put_contents(ROOT . $fileName, base64_decode($img));
 //			return $fileName;
 			$dest = imagecreatefromstring(base64_decode($img));
-			$src = imagecreatefrompng('/images/superposables/mask.png');
+			$src = imagecreatefrompng(ROOT . '/images/superposables/mask.png');
 //
 
 			imagealphablending($dest, false);
 			imagesavealpha($dest, true);
-//
-			imagecopymerge($dest, $src, 10, 9, 0, 0, 128, 128, 100); //have to play with these numbers for it to work for you, etc.
-//
-//			header('Content-Type: image/png');
-			imagepng($dest);
-//			imagepng($dest, "/images/photos/file.png");
-//        debug($dest);
+//			debug($_GET);
+//			$img = $this->resize_image($src, (int)$_GET['w'], (int)$_GET['h']);
+			$thumb = imagecreatetruecolor($_GET['w'], (int)$_GET['h']);
+			imagealphablending($thumb, false);
+			imagesavealpha($thumb, true);
+			imagecopyresized($thumb, $src, 0, 0, 0, 0, $_GET['w'], $_GET['h'], 128, 128);
+			$this->mergePictures($dest, $thumb, (int)$_GET['x'], (int)$_GET['y'], 0, 0, (int)$_GET['w'], (int)$_GET['h'], 100); //have to play with these numbers for it to work for you, etc.
+			$filename = "/images/photos/" . md5(uniqid()) . ".png";
+//			$directory = ROOT . "/images/photos/" . $filename . ".png";
+//			chmod($directory, 0755);
+
+			// this will save your image
+			imagepng($dest, ROOT . $filename, 0, NULL);
+
+//			var_dump($_SERVER);
 			imagedestroy($dest);
 			imagedestroy($src);
+//			$this->savePhotoNameToUserTable($filename, $_SESSION['logged_user']['id']);
 
-			return '';
+			return $filename;
 		} else
 			return '';
 	}
+
+	public function mergePictures($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct)
+	{
+		// creating a cut resource
+		$cut = imagecreatetruecolor($src_w, $src_h);
+
+		// copying relevant section from background to the cut resource
+		imagecopy($cut, $dst_im, 0, 0, $dst_x, $dst_y, $src_w, $src_h);
+
+		// copying relevant section from watermark to the cut resource
+		imagecopy($cut, $src_im, 0, 0, $src_x, $src_y, $src_w, $src_h);
+
+		// insert cut resource to destination image
+		imagecopymerge($dst_im, $cut, $dst_x, $dst_y, 0, 0, $src_w, $src_h, $pct);
+	}
+
 
 	public function savePhotoNameToUserTable(string $fileName, string $userId)
 	{
@@ -103,4 +128,5 @@ class Photos extends Model
 			$this->db->query('INSERT INTO likes (author_id, post_id) VALUES (:uid, :id)', $params);
 		return $result;
 	}
+
 }

@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			const {img, scale} = superposable;
 			const w = img.width * scale;
 			const h = img.height * scale;
-			const dataURL = canvas.toDataURL();
+			const dataURL = newCanvas.toDataURL();
 			// context.drawImage(img, x - (width / 2), y - (height / 2), width, height);
 			snapButton.disabled = true;
 			fetch(`/photos/create?id=${superposable.id}&x=${x - (w / 2)}&y=${y - (h / 2)}&w=${w}&h=${h}`, {
@@ -51,22 +51,17 @@ document.addEventListener("DOMContentLoaded", function () {
 				.then(response => {
 					if (!response.ok)
 						throw new Error("Error!");
-					// return response.json();
+					return response.json();
 					// return .then(response => response.blob())
-					return response.blob();
+					// return response.blob();
 				})
-				.then(images => {
-					// Then create a local URL for that image and print it
-					const outside = URL.createObjectURL(images)
-					console.log(outside)
+				.then(response => {
+					const {status, url} = response;
+					if (url)
+						window.location.replace("/");
+					else if (status !== "success")
+						alert(response.message)
 				})
-				// .then(response => {
-				// 	const {status, url} = response;
-				// 	if (url)
-				// 		window.location.replace("/");
-				// 	else if (status !== "success")
-				// 		alert(response.message)
-				// })
 				.catch(error => {
 					console.log("Error ", error);
 				})

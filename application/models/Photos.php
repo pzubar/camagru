@@ -22,10 +22,8 @@ class Photos extends Model
 	{
 		if (!isset($_GET['id']) || !isset($_GET['x']) || !isset($_GET['y']) || !isset($_GET['h']) || !isset($_GET['w']))
 			return '';
-//		var_dump($_GET);
 		$contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 		$result = $this->db->row('SELECT filename FROM superposables WHERE id = :id', ['id' => $_GET['id']]);
-//		var_dump($result);
 		if (!isset($result[0]))
 			return '';
 		if ($contentType === "application/upload") {

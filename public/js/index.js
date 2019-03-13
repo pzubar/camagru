@@ -1,7 +1,7 @@
 window.onload = function () {
 	const queryParams = {
 		page: 1,
-		limit: 10
+		limit: 5
 	};
 	const wrapper = document.getElementById("wrapper");
 	const container = document.querySelector('#publications-container');
@@ -47,6 +47,8 @@ window.onload = function () {
 	}
 
 	function fetchPublications() {
+		if (queryParams.page * 5 >= postsNum)
+			return;
 		fetch(`posts?page=${queryParams.page}`,)
 			.then(response => {
 				if (!response.ok)

@@ -10,6 +10,8 @@ namespace application\models;
 
 use application\core\Model;
 
+include ROOT . "/application/lib/Mail.php";
+
 class Photos extends Model
 {
 
@@ -98,6 +100,11 @@ class Photos extends Model
 		];
 		$this->db->query('INSERT INTO comments (author_id, comment_text, postdate, post_id)
 				VALUES (:author_id, :comment_text, :postdate, :post_id)', $params);
+		sendMail($_SESSION['logged_user']['email'], "
+			<h3>Hello, " . $_SESSION['logged_user']['username'] . "</h3>
+			<p>Your post was just commented, visit <a href='http://" . $_SERVER['HTTP_HOST'] . "' target='_blank'>Camagru</a> to read the comment</p>
+			"
+		);
 		return (true);
 	}
 

@@ -20,8 +20,20 @@ class PhotosController extends Controller
 
 	}
 
+	public function removeAction()
+	{
+		if (isset($_POST['id'])) {
+			try {
+				$this->model->removePost($_POST['id']);
+				$this->view->message('success', "Post removed");
+			} catch (Exception $e) {
+				$this->view->message('error', "Post was not removed: " . $e);
+			}
+		}
+	}
 
-	public function createAction()
+	public
+	function createAction()
 	{
 		if (!isset($_SESSION['logged_user']) || !$_SESSION['logged_user']['is_activated'])
 			exit(json_encode(['status' => 'error', 'message' => 'You have not yet activated your account']));
@@ -33,13 +45,14 @@ class PhotosController extends Controller
 		$this->view->location("/");
 	}
 
-	public function commentAction()
+	public
+	function commentAction()
 	{
 		if (!isset($_SESSION['logged_user']))
 			$this->view->message('redirect', "/account/login");
 		if (!isset($_SESSION['logged_user']) || !$_SESSION['logged_user']['is_activated'])
 			$this->view->message('error', 'You have not yet activated your account');
-		if (isset($_POST['post-id']) || isset($_POST['comment'])) {
+		if (isset($_POST['post-id']) && isset($_POST['comment'])) {
 			try {
 				if ($this->model->commentPost($_POST['comment'], $_POST['post-id'], $_SESSION['logged_user']['id']))
 					$this->view->message('success', "Post commented");
@@ -51,7 +64,8 @@ class PhotosController extends Controller
 		}
 	}
 
-	public function likeAction()
+	public
+	function likeAction()
 	{
 		if (!isset($_SESSION['logged_user']))
 			$this->view->message('redirect', "/account/login");

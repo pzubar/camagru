@@ -48,6 +48,18 @@
         .superposable-image img {
             cursor: pointer;
         }
+
+        .photo-remover {
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: #6c757d;
+            cursor: pointer
+        }
+
+        .photo-remover:hover {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -78,13 +90,14 @@
             <div class="col-md-10">
                 <button id="snap" class="btn btn-outline-primary btn-lg btn-block">Snap Photo</button>
             </div>
-
         </div>
         <div class="col-md-2 col-sm-12 photos-container" style="margin: 10px 0; max-height: 600px; overflow: auto">
             <h6>My photos:</h6>
 			<?php foreach ($photos as $val): ?>
-                <img id="sp-<?php echo $val['id'] ?>"
-                     src="<?php echo $val['filename'] ?>" style="width: 100%; margin: 5px 0" alt="">
+                <div style="position: relative" id="<?php echo $val['id'] ?>">
+                    <img src="<?php echo $val['filename'] ?>" style="max-width: 100%; margin: 5px 0" alt="">
+                    <i class="fas fa-times-circle photo-remover" onclick="deletePhoto(event)"></i>
+                </div>
 			<?php endforeach; ?>
         </div>
     </div>
@@ -92,11 +105,11 @@
 <script type="application/javascript" src="/public/js/new_photo.js"></script>
 <script>
 	function previewFiles() {
-
 		const preview = document.querySelector('#preview');
 		const files = document.querySelector('input[type=file]').files;
 
 		function readAndPreview(file) {
+
 			if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
 				const reader = new FileReader();
 
@@ -107,7 +120,6 @@
 					image.src = this.result;
 					preview.appendChild(image);
 				}, false);
-
 				reader.readAsDataURL(file);
 			}
 		}
@@ -116,6 +128,26 @@
 			[].forEach.call(files, readAndPreview);
 		}
 
+	}
+
+	function deletePhoto(e) {
+		const {id} = e.target.parentNode;
+		const formData = new FormData();
+
+		formData.append('id', id);
+		fetch('/photos/remove', {
+			method: 'POST',
+			body: formData,
+		}).then((response) => {
+			if (!response.ok) {
+				throw "Response status was not ok: " + response.status;
+			}
+			else
+				return response.json();
+		}).then(result => {
+			e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+		}).catch(e => {
+		})
 	}
 </script>
 </body>

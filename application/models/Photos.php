@@ -123,4 +123,11 @@ class Photos extends Model
 		return $result;
 	}
 
+	public function removePost($id) {
+		$params = [
+			'id' => (int)$id,
+		];
+		$result = $this->db->query('DELETE FROM posts WHERE id = :id', $params);
+		return $result;
+	}
 }

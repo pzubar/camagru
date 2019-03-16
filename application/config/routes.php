@@ -1,62 +1,67 @@
 <?php
 return array(
-    '' => [
-        'controller' => 'main',
-        'action' => 'index'
-    ],
+	'' => [
+		'controller' => 'main',
+		'action' => 'index'
+	],
 
-    'posts(\?.*)' => [
-        'controller' => 'main',
-        'action' => 'posts'
-    ],
+	'posts(\?.*)' => [
+		'controller' => 'main',
+		'action' => 'posts'
+	],
 
-    'logout' => [
-        'controller' => 'main',
-        'action' => 'logout'
-    ],
+	'logout' => [
+		'controller' => 'main',
+		'action' => 'logout'
+	],
 
-    'account/settings' => [
-        'controller' => 'account',
-        'action' => 'settings',
-    ],
+	'account/settings' => [
+		'controller' => 'account',
+		'action' => 'settings',
+	],
 
-    'account/login(/[a-z-]*)?' => [
-        'controller' => 'account',
-        'action' => 'login',
-    ],
+	'account/login(/[a-z-]*)?' => [
+		'controller' => 'account',
+		'action' => 'login',
+	],
 
-    'account/auth/[a-z0-9]+' => [
-        'controller' => 'account',
-        'action' => 'auth',
-    ],
+	'account/auth/[a-z0-9]+' => [
+		'controller' => 'account',
+		'action' => 'auth',
+	],
 
-    'account/remind-password(/[a-z0-9]+)?' => [
-        'controller' => 'account',
-        'action' => 'remindPassword',
-    ],
+	'account/remind-password(/[a-z0-9]+)?' => [
+		'controller' => 'account',
+		'action' => 'remindPassword',
+	],
 
-    'account/register' => [
-        'controller' => 'account',
-        'action' => 'register',
-    ],
+	'account/register' => [
+		'controller' => 'account',
+		'action' => 'register',
+	],
 
-    'photos/new' => [
-        'controller' => 'photos',
-        'action' => 'new',
-    ],
+	'photos/new' => [
+		'controller' => 'photos',
+		'action' => 'new',
+	],
 
-    'photos/create(\?.*)?' => [
-        'controller' => 'photos',
-        'action' => 'create',
-    ],
+	'photos/create(\?.*)?' => [
+		'controller' => 'photos',
+		'action' => 'create',
+	],
 
-    'photos/comment' => [
-        'controller' => 'photos',
-        'action' => 'comment',
-    ],
+	'photos/comment' => [
+		'controller' => 'photos',
+		'action' => 'comment',
+	],
 
-    'photos/like' => [
-        'controller' => 'photos',
-        'action' => 'like',
-    ]
+	'photos/like' => [
+		'controller' => 'photos',
+		'action' => 'like',
+	],
+
+	'photos/remove' => [
+		'controller' => 'photos',
+		'action' => 'remove',
+	]
 );

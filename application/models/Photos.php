@@ -31,7 +31,7 @@ class Photos extends Model
 			$img = str_replace('data:image/png;base64,', '', $content);
 			$img = str_replace(' ', '+', $img);
 			$dst = imagecreatefromstring(base64_decode($img));
-			$src = imagecreatefrompng(ROOT . '/images/superposables/'  .$result[0]['filename']);
+			$src = imagecreatefrompng(ROOT . '/images/superposables/' . $result[0]['filename']);
 			$thumb = imagecreatetruecolor($_GET['w'], (int)$_GET['h']);
 			$filename = "/images/photos/" . md5(uniqid()) . ".png";
 
@@ -40,8 +40,13 @@ class Photos extends Model
 			imagealphablending($thumb, false);
 			imagesavealpha($thumb, true);
 			imagecopyresized($thumb, $src, 0, 0, 0, 0, $_GET['w'], $_GET['h'], 128, 128);
-			$this->mergePictures($dst, $thumb, (int)$_GET['x'], (int)$_GET['y'], 0, 0, (int)$_GET['w'], (int)$_GET['h'], 100); //have to play with these numbers for it to work for you, etc.
-			imagepng($dst, ROOT . $filename, 0, NULL);
+			$this->_mergePictures($dst, $thumb, (int)$_GET['x'], (int)$_GET['y'], 0, 0,
+				(int)$_GET['w'], (int)$_GET['h'], 100); //have to play with these numbers for it to work for you, etc.
+			$width = imagesx($dst);
+			$height = imagesy($dst);
+			$result = imagecreatetruecolor($width / 2, $height / 2);
+			imagecopyresampled($result, $dst, 0, 0, 0, 0, $width / 2, $height / 2, $width, $height);
+			imagepng($result, ROOT . $filename, 0, NULL);
 			imagedestroy($dst);
 			imagedestroy($thumb);
 			imagedestroy($src);
@@ -50,7 +55,7 @@ class Photos extends Model
 			return '';
 	}
 
-	public function mergePictures($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct)
+	private function _mergePictures($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct)
 	{
 		$cut = imagecreatetruecolor($src_w, $src_h);
 

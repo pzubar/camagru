@@ -47,7 +47,7 @@ window.onload = function () {
 	}
 
 	function fetchPublications() {
-		if (queryParams.page * 5 >= postsNum)
+		if (queryParams.page !== 1 && queryParams.page * 5 >= postsNum)
 			return;
 		fetch(`posts?page=${queryParams.page}`,)
 			.then(response => {
@@ -119,7 +119,6 @@ function handleLikePress(target, classList) {
 		.then(function (response) {
 			if (response['status'] && response['status'] === "redirect") {
 				window.location.replace(response.message);
-				return;
 			}
 			else if (response['status'] && response['status'] !== "success")
 				alert(response.message);

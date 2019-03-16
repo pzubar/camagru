@@ -84,13 +84,12 @@
             <h6>My photos:</h6>
 			<?php foreach ($photos as $val): ?>
                 <img id="sp-<?php echo $val['id'] ?>"
-                     src="<?php echo $val['filename'] ?>" style="max-width: 100%; margin: 5px 0" alt="">
+                     src="<?php echo $val['filename'] ?>" style="width: 100%; margin: 5px 0" alt="">
 			<?php endforeach; ?>
         </div>
     </div>
 </div>
-<!--<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>-->
-<script src="/public/js/new_photo.js"></script>
+<script type="application/javascript" src="/public/js/new_photo.js"></script>
 <script>
 	function previewFiles() {
 
@@ -101,10 +100,10 @@
 
 			// Make sure `file.name` matches our extensions criteria
 			if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-				var reader = new FileReader();
+				const reader = new FileReader();
 
 				reader.addEventListener("load", function () {
-					var image = new Image();
+					const image = new Image();
 					image.height = 100;
 					image.title = file.name;
 					image.src = this.result;

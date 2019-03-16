@@ -163,6 +163,7 @@ function submitCommentForm(event) {
 
 				formContainer.classList.toggle('hidden');
 				commentsContainer.innerHTML += `<p><i>${window.$uName}:</i> ${target[0].value}</p>`;
+				target[0].value = '';
 			}
 		})
 		.catch(function (err) {

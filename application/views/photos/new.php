@@ -60,6 +60,10 @@
         .photo-remover:hover {
             color: red;
         }
+
+        #browse-files {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -70,8 +74,8 @@
             <div class="col-md-10">
                 <video id="video" width="1600" height="900" autoplay style="display: none"></video>
                 <canvas id="canvas"></canvas>
+                <input id="browse-files" type="file" onchange="downloadFiles()">
             </div>
-            <input id="browse" type="file" onchange="previewFiles()" multiple>
             <div id="preview"></div>
             <div class="col-md-10">
                 <h6>Superposable images:</h6>
@@ -79,12 +83,14 @@
                     <div class="col-md-2 col-xs-4 col-sm-4 superposable-image">
                         <i class="fas fa-2x fa-ban" id="remove-super-pos"></i>
                     </div>
-					<?php foreach ($superposables as $val): ?>
-                        <div class="col-md-2 col-xs-4 col-sm-4 superposable-image">
-                            <img id="sp-<?php echo $val['id'] ?>"
-                                 src="/images/superposables/<?php echo $val['filename'] ?>" alt="">
-                        </div>
-					<?php endforeach; ?>
+					<?php if (isset($superposables)): ?>
+						<?php foreach ($superposables as $val): ?>
+                            <div class="col-md-2 col-xs-4 col-sm-4 superposable-image">
+                                <img id="sp-<?php echo $val['id'] ?>"
+                                     src="/images/superposables/<?php echo $val['filename'] ?>" alt="">
+                            </div>
+						<?php endforeach; ?>
+					<?php endif; ?>
                 </div>
             </div>
             <div class="col-md-10">
@@ -93,43 +99,19 @@
         </div>
         <div class="col-md-2 col-sm-12 photos-container" style="margin: 10px 0; max-height: 600px; overflow: auto">
             <h6>My photos:</h6>
-			<?php foreach ($photos as $val): ?>
-                <div style="position: relative" id="<?php echo $val['id'] ?>">
-                    <img src="<?php echo $val['filename'] ?>" style="max-width: 100%; margin: 5px 0" alt="">
-                    <i class="fas fa-times-circle photo-remover" onclick="deletePhoto(event)"></i>
-                </div>
-			<?php endforeach; ?>
+			<?php if (isset($photos)): ?>
+				<?php foreach ($photos as $val): ?>
+                    <div style="position: relative" id="<?php echo $val['id'] ?>">
+                        <img src="<?php echo $val['filename'] ?>" style="max-width: 100%; margin: 5px 0" alt="">
+                        <i class="fas fa-times-circle photo-remover" onclick="deletePhoto(event)"></i>
+                    </div>
+				<?php endforeach; ?>
+			<?php endif; ?>
         </div>
     </div>
 </div>
-<script type="application/javascript" src="/public/js/new_photo.js"></script>
+<script type="application/javascript" src="<?php echo '/public/js/new_photo.js' ?>"></script>
 <script>
-	function previewFiles() {
-		const preview = document.querySelector('#preview');
-		const files = document.querySelector('input[type=file]').files;
-
-		function readAndPreview(file) {
-
-			if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-				const reader = new FileReader();
-
-				reader.addEventListener("load", function () {
-					const image = new Image();
-					image.height = 100;
-					image.title = file.name;
-					image.src = this.result;
-					preview.appendChild(image);
-				}, false);
-				reader.readAsDataURL(file);
-			}
-		}
-
-		if (files) {
-			[].forEach.call(files, readAndPreview);
-		}
-
-	}
-
 	function deletePhoto(e) {
 		const {id} = e.target.parentNode;
 		const formData = new FormData();

@@ -47,7 +47,9 @@ window.onload = function () {
 	}
 
 	function fetchPublications() {
-		if (queryParams.page !== 1 && queryParams.page * 5 >= postsNum)
+		const container = document.getElementsByClassName('post-container');
+
+		if (container && container.length >= postsNum)
 			return;
 		fetch(`posts?page=${queryParams.page}`)
 			.then(response => {

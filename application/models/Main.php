@@ -36,7 +36,7 @@ FROM (
                FROM posts p
                       INNER JOIN users ON p.author_id = users.id
                ORDER BY p.postdate DESC
-               LIMIT 10 OFFSET 0) POSTS_WITH_AUTHORS
+               LIMIT ' . $limit . ' OFFSET ' . $offset . ') POSTS_WITH_AUTHORS
                  LEFT JOIN
                    likes l ON POSTS_WITH_AUTHORS.id = l.post_id
           GROUP BY

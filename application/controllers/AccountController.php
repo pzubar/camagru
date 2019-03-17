@@ -91,6 +91,6 @@ class AccountController extends Controller
     {
         if (!isset($_SESSION['logged_user']))
             $this->view::redirect('/account/login');
-
+		$this->view->render('Settings');
     }
 }

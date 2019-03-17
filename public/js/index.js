@@ -11,7 +11,7 @@ window.onload = function () {
 			const {author_name, postdate, filename, likes_count, id, comments, likes_authors: likes} = item;
 			const is_liked = (window.$uId && likes.includes(window.$uId));
 			let commentsHTML = '';
-			comments.map(i => commentsHTML += `<p><i>${i['author']}:</i> ${i[['text']]}</p>`);
+			comments.map(i => commentsHTML += `<p><i>${i['author']}:</i> ${(encodeURIComponent(i[['text']]))}</p>`);
 			container.innerHTML +=
 				`<div class="container">
 					<div class="row justify-content-md-center">
@@ -138,6 +138,7 @@ function handleLikePress(target, classList) {
 function submitCommentForm(event) {
 	const target = event.target;
 	const {action, method} = target;
+	debugger;
 	event.preventDefault();
 
 	fetch(action, {

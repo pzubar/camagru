@@ -90,6 +90,8 @@ class Account extends Model
 			throw new Exception('There is no user with such an email or login');
 		if (!password_verify($password, $result[0]['password']))
 			throw new Exception('Wrong password');
+		if (!$result[0]['is_activated'])
+			throw new Exception('The account was not activated');
 
 		$_SESSION['logged_user'] = $result[0];
 		return $result;

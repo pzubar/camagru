@@ -27,7 +27,7 @@ window.onload = function () {
 								</span>
 							</div>
 							<img src='${filename}'>
-							<div class="container" style="margin: 5px 0">
+							<div class="container" style="margin: 10px 0">
 							    <i class="far fa-comment comment-button" style="margin-right: 3px;cursor: pointer"></i>
 							    <i class="fa${is_liked ? 's' : 'r'} fa-heart like-button" style="cursor: pointer" id="${id}"></i>
 							    <span style="padding: 0 2px " class="likes-counter">${likes_count}</span>
@@ -49,7 +49,7 @@ window.onload = function () {
 	function fetchPublications() {
 		if (queryParams.page !== 1 && queryParams.page * 5 >= postsNum)
 			return;
-		fetch(`posts?page=${queryParams.page}`,)
+		fetch(`posts?page=${queryParams.page}`)
 			.then(response => {
 				if (!response.ok)
 					throw new Error("Error!");
@@ -115,24 +115,22 @@ function handleLikePress(target, classList) {
 		}
 		else
 			return response.json();
-	})
-		.then(function (response) {
-			if (response['status'] && response['status'] === "redirect") {
-				window.location.replace(response.message);
-			}
-			else if (response['status'] && response['status'] !== "success")
-				alert(response.message);
-			else {
-				const likesCounter = target.parentNode.querySelector('.likes-counter');
+	}).then(function (response) {
+		if (response['status'] && response['status'] === "redirect") {
+			window.location.replace(response.message);
+		}
+		else if (response['status'] && response['status'] !== "success")
+			alert(response.message);
+		else {
+			const likesCounter = target.parentNode.querySelector('.likes-counter');
 
-				likesCounter.innerHTML = String(Number(likesCounter.innerText) + (classList.contains('far') ? 1 : -1));
-				classList.toggle('fas');
-				classList.toggle('far');
-			}
-		})
-		.catch(err => {
-			console.log('Fetch Error. ', err);
-		});
+			likesCounter.innerHTML = String(Number(likesCounter.innerText) + (classList.contains('far') ? 1 : -1));
+			classList.toggle('fas');
+			classList.toggle('far');
+		}
+	}).catch(err => {
+		console.log('Fetch Error. ', err);
+	});
 }
 
 function submitCommentForm(event) {
@@ -143,30 +141,27 @@ function submitCommentForm(event) {
 	fetch(action, {
 		method: method,
 		body: new FormData(target),
-	})
-		.then((response) => {
-			if (!response.ok) {
-				throw "Response status was not ok: " + response.status;
-			}
-			else
-				return response.json();
-		})
-		.then(function (response) {
-			if (response['status'] && response['status'] === "redirect")
-				window.location.replace(response.message);
-			else if (response['status'] && response['status'] !== "success")
-				alert(response.message);
-			else {
-				const container = target.closest('.post-container');
-				const formContainer = container.querySelector('.comment-container');
-				const commentsContainer = container.querySelector('.comments-container');
+	}).then((response) => {
+		if (!response.ok) {
+			throw "Response status was not ok: " + response.status;
+		}
+		else
+			return response.json();
+	}).then(function (response) {
+		if (response['status'] && response['status'] === "redirect")
+			window.location.replace(response.message);
+		else if (response['status'] && response['status'] !== "success")
+			alert(response.message);
+		else {
+			const container = target.closest('.post-container');
+			const formContainer = container.querySelector('.comment-container');
+			const commentsContainer = container.querySelector('.comments-container');
 
-				formContainer.classList.toggle('hidden');
-				commentsContainer.innerHTML += `<p><i>${window.$uName}:</i> ${target[0].value}</p>`;
-				target[0].value = '';
-			}
-		})
-		.catch(function (err) {
-			console.log('Fetch Error. ', err);
-		});
+			formContainer.classList.toggle('hidden');
+			commentsContainer.innerHTML += `<p><i>${window.$uName}:</i> ${target[0].value}</p>`;
+			target[0].value = '';
+		}
+	}).catch(function (err) {
+		console.log('Fetch Error. ', err);
+	});
 }

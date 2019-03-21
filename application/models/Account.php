@@ -125,4 +125,14 @@ class Account extends Model
 			throw new Exception('Something went wrong!');
 		}
 	}
+
+	public function getUserInfo()
+	{
+		$params = [
+			'id' => $_SESSION['logged_user']['id']
+		];
+		$result = $this->db->row('SELECT username, email, send_mail FROM users WHERE id = :id LIMIT 1', $params);
+
+		return $result[0];
+	}
 }

@@ -100,11 +100,12 @@ class Photos extends Model
 		];
 		$this->db->query('INSERT INTO comments (author_id, comment_text, postdate, post_id)
 				VALUES (:author_id, :comment_text, :postdate, :post_id)', $params);
-		sendMail($_SESSION['logged_user']['email'], "
+		$user = $this->db->row('SELECT * FROM users WHERE id = :id', ['id' => $userId]);
+		if (isset($user[0]) && $user[0]['send_mail'] === true)
+			sendMail($user[0]['email'], "
 			<h3>Hello, " . $_SESSION['logged_user']['username'] . "</h3>
 			<p>Your post was just commented, visit <a href='http://" . $_SERVER['HTTP_HOST'] . "' target='_blank'>Camagru</a> to read the comment</p>
-			"
-		);
+			");
 		return (true);
 	}
 
@@ -123,7 +124,8 @@ class Photos extends Model
 		return $result;
 	}
 
-	public function removePost($id) {
+	public function removePost($id)
+	{
 		$params = [
 			'id' => (int)$id,
 		];

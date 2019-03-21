@@ -43,7 +43,7 @@ class Photos extends Model
 			imagesavealpha($thumb, true);
 			imagecopyresized($thumb, $src, 0, 0, 0, 0, $_GET['w'], $_GET['h'], 128, 128);
 			$this->_mergePictures($dst, $thumb, (int)$_GET['x'], (int)$_GET['y'], 0, 0,
-				(int)$_GET['w'], (int)$_GET['h'], 100); //have to play with these numbers for it to work for you, etc.
+				(int)$_GET['w'], (int)$_GET['h'], 100);
 			$width = imagesx($dst);
 			$height = imagesy($dst);
 			$result = imagecreatetruecolor($width / 2, $height / 2);
@@ -100,12 +100,14 @@ class Photos extends Model
 		];
 		$this->db->query('INSERT INTO comments (author_id, comment_text, postdate, post_id)
 				VALUES (:author_id, :comment_text, :postdate, :post_id)', $params);
-		$user = $this->db->row('SELECT * FROM users WHERE id = :id', ['id' => $userId]);
-		if (isset($user[0]) && $user[0]['send_mail'] === true)
+		$id = $this->db->row('SELECT author_id FROM posts WHERE id = :post_id', ['post_id' => $postId]);
+		$user = $this->db->row('SELECT * FROM users WHERE id = :id', ['id' => $id[0]["author_id"]]);
+		if (isset($user[0]) && $user[0]['send_mail'])
 			sendMail($user[0]['email'], "
-			<h3>Hello, " . $_SESSION['logged_user']['username'] . "</h3>
+			<h3>Hello, " . $user[0]['username'] . "</h3>
 			<p>Your post was just commented, visit <a href='http://" . $_SERVER['HTTP_HOST'] . "' target='_blank'>Camagru</a> to read the comment</p>
 			");
+
 		return (true);
 	}
 

@@ -27,7 +27,7 @@ class AccountController extends Controller
             else if ($message === "remind-success")
                 $message = "Check your email, we sent an instructions letter!";
             else if ($message === "change-success")
-                $message = "Your email changed successfully";
+                $message = "Your password was changed successfully";
             else {
                 $this->view->errorCode(404);
             }

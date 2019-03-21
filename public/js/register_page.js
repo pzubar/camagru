@@ -5,42 +5,53 @@ function validateEmail(email) {
 	return regExp.test(email);
 }
 
-function validateLoginPassword(string) {
-	const regExp = /^[a-zA-Z0-9]+$/;
-	return string.length >= 5 && string.length <= 9 && regExp.test(string);
+function validatePassword(string) {
+	const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{6,}$/;
+	return regExp.test(string);
+}
+
+function validateLogin(string) {
+	const regExp = /^([a-zA-Z0-9]){4,}$/;
+	return regExp.test(string);
 }
 
 form.onsubmit = function (e) {
 	e.preventDefault();
-	if (!validateEmail(this[0].value)) {
+
+	if (!validateEmail(this['email'].value)) {
 		alert('Invalid email!');
 		return;
 	}
-	if (!validateLoginPassword(this[1].value)) {
-		alert('Invalid login!');
+	if (!validateLogin(this['login'].value)) {
+		alert('Invalid login! Use at least 4 characters (latin letters or digits)');
 		return;
 	}
-	if (!validateLoginPassword(this[2].value)) {
-		alert('Password is invalid!');
+	if (this['password_repeat'].value !== this.password.value) {
+		alert('Passwords are not equal');
+		return;
+	}
+	if (!validatePassword(this.password.value)) {
+		alert('Password is invalid! Use at least 6 characters, at least one latin letter and one or more digits');
 		return;
 	}
 	fetch(this.action, {
 		method: this.method,
 		body: new FormData(this),
-	}).then(
-		function (response) {
-			if (response.status !== 200) {
-				console.log('Looks like there was a problem. Status Code: ' +
-					response.status);
-				return;
-			}
-			response.json().then(function (data) {
-				alert(data);
-				console.log(data);
-			});
+		redirect: "follow"
+	}).then((response) => {
+		if (!response.ok) {
+			throw "Response status was not ok: " + response.status;
 		}
-		)
+		if (response.redirected)
+			window.location.href = response.url;
+		else
+			return response.json();
+	})
+		.then(function (response) {
+			if (response.status && response.status !== "success")
+				alert(response.message)
+		})
 		.catch(function (err) {
-			console.log('Fetch Error :-S', err);
+			console.log('Fetch Error. ', err);
 		});
 };

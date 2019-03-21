@@ -27,7 +27,7 @@ class Account extends Model
 			'email' => $email,
 			'login' => $login
 		];
-		$result = $this->db->row('SELECT id FROM users WHERE email = :login OR username = :login', $params);
+		$result = $this->db->row('SELECT id FROM users WHERE email = :email OR username = :login', $params);
 		if (!empty($result))
 			return true;
 		return false;
@@ -40,7 +40,6 @@ class Account extends Model
 		];
 
 		$time = date("Y-m-d H:i:s");
-
 		$params = [
 			'email' => $email,
 			'login' => $login,

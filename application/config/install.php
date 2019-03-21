@@ -76,3 +76,60 @@
 
 //    header('Location: ../index.php');
     echo "Installed";
+    /*
+     * create table comments
+(
+  id           int auto_increment,
+  postdate     datetime default current_timestamp() not null,
+  comment_text text                                 not null,
+  author_id    int                                  not null,
+  post_id      int                                  not null,
+  constraint comments_id_uindex
+  unique (id)
+)
+  charset = latin1;
+
+alter table comments
+  add primary key (id);
+
+create table likes
+(
+  id        int auto_increment
+    primary key,
+  author_id int not null,
+  post_id   int not null
+)
+  charset = latin1;
+
+create table posts
+(
+  id        int auto_increment
+    primary key,
+  postdate  datetime default current_timestamp() not null,
+  author_id int                                  not null,
+  filename  varchar(128)                         not null
+)
+  charset = latin1;
+
+create table superposables
+(
+  id       int auto_increment
+    primary key,
+  filename varchar(64) default 'NULL' null
+);
+
+create table users
+(
+  id            int auto_increment
+    primary key,
+  username      varchar(16)                          not null,
+  password      varchar(128)                         not null,
+  email         varchar(320)                         not null,
+  register_time datetime default current_timestamp() not null,
+  is_activated  tinyint(1) default '0'               not null,
+  hash          varchar(48)                          not null,
+  send_mail     tinyint(1) default '1'               not null
+)
+  charset = latin1;
+
+     */

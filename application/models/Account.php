@@ -131,8 +131,30 @@ class Account extends Model
 		$params = [
 			'id' => $_SESSION['logged_user']['id']
 		];
-		$result = $this->db->row('SELECT username, email, send_mail FROM users WHERE id = :id LIMIT 1', $params);
+		$result = $this->db->row('SELECT username, email, password, send_mail FROM users WHERE id = :id LIMIT 1', $params);
 
 		return $result[0];
+	}
+
+	public function editUserInfo()
+	{
+		$userInfo = $this->getUserInfo();
+		$userInfo['send_mail'] = $userInfo['send_mail'] === "1" ? "on" : "";
+
+		$params = [
+			'id' => $_SESSION['logged_user']['id'],
+			'email' => (isset($_POST['email']) && $_POST['email'] !== "" && $_POST['email'] !== $userInfo['email'])
+				? $_POST['email'] : $userInfo['email'],
+			'username' => (isset($_POST['login']) && $_POST['login'] !== "" && $_POST['login'] !== $userInfo['username'])
+				? $_POST['login'] : $userInfo['username'],
+			'password' => (isset($_POST['password']) && $_POST['password'] !== "" && !password_verify($_POST['password'], $userInfo['password']))
+				? password_hash($_POST['password'], PASSWORD_BCRYPT, ['cost' => 10]) : $userInfo['password'],
+			'send_mail' => $_POST['password'] === "on" ? "1" : "0"
+		];
+		$this->db->query('UPDATE users SET username = :username, password = :password, email = :email, send_mail = :send_mail WHERE id = :id', $params);
+//		["send_mails"]
+//		echo isset($_POST['email']);
+//		var_dump($_POST);
+//		debug($userInfo);
 	}
 }

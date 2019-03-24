@@ -95,8 +95,17 @@ class AccountController extends Controller
 	{
 		if (!isset($_SESSION['logged_user']))
 			$this->view::redirect('/account/login');
-		if (isset($_POST['email']))
-			debug($_POST);
+		if (isset($_POST['email']) || isset($_POST['login']) || isset($_POST['password']) || isset($_POST['send_mails'])) {
+			if ($this->model->checkRegisterData($_POST['email'], $_POST['login'])) {
+				$this->view->message('fail', 'User with such a login or email already exists');
+			}
+			try {
+				$this->model->editUserInfo();
+				$this->view::redirect('/account/settings');
+			} catch (Exception $exception) {
+				$this->view->message('error', $exception->getMessage());
+			}
+		}
 		$userInfo = $this->model->getUserInfo();
 		$this->view->render('Settings', ['userInfo' => $userInfo]);
 	}

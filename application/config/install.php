@@ -133,3 +133,71 @@ create table users
   charset = latin1;
 
      */
+    /*
+     * -- comments: table
+CREATE TABLE `comments` (
+  `id`           int(11)  NOT NULL AUTO_INCREMENT,
+  `postdate`     datetime NOT NULL DEFAULT current_timestamp(),
+  `comment_text` text     NOT NULL,
+  `author_id`    int(11)  NOT NULL,
+  `post_id`      int(11)  NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `comments_id_uindex` (`id`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 33
+  DEFAULT CHARSET = latin1;
+
+-- likes: table
+CREATE TABLE `likes` (
+  `id`        int(11) NOT NULL AUTO_INCREMENT,
+  `author_id` int(11) NOT NULL,
+  `post_id`   int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 23
+  DEFAULT CHARSET = latin1;
+
+-- posts: table
+CREATE TABLE `posts` (
+  `id`        int(11)      NOT NULL AUTO_INCREMENT,
+  `postdate`  datetime     NOT NULL DEFAULT current_timestamp(),
+  `author_id` int(11)      NOT NULL,
+  `filename`  varchar(128) NOT NULL,
+  PRIMARY KEY (`id`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 59
+  DEFAULT CHARSET = latin1;
+
+-- superposables: table
+CREATE TABLE `superposables` (
+  `id`       int(11) NOT NULL                    AUTO_INCREMENT,
+  `filename` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 14
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+-- users: table
+CREATE TABLE `users` (
+  `id`            int(11)      NOT NULL AUTO_INCREMENT,
+  `username`      varchar(16)  NOT NULL,
+  `password`      varchar(128) NOT NULL,
+  `email`         varchar(320) NOT NULL,
+  `register_time` datetime     NOT NULL DEFAULT current_timestamp(),
+  `is_activated`  tinyint(1)   NOT NULL DEFAULT 0,
+  `hash`          varchar(48)  NOT NULL,
+  `send_mail`     tinyint(1)   NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_uindex` (`email`)
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 19
+  DEFAULT CHARSET = latin1;
+
+
+     */

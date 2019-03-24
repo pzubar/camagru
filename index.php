@@ -1,7 +1,5 @@
 <?php
 
-require 'application/Dev.php';
-
 define('ROOT', dirname(__FILE__));
 
 use application\core\Router;

@@ -142,7 +142,6 @@ function handleLikePress(target, classList) {
 function submitCommentForm(event) {
 	const target = event.target;
 	const {action, method} = target;
-	debugger;
 	event.preventDefault();
 
 	fetch(action, {

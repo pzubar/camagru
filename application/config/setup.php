@@ -9,45 +9,43 @@
 require_once "database.php";
 
 if (!$DB_DSN || !$DB_USER || !$DB_PASSWORD || !$DB_NAME)
-	exit ('Setup failed, please, use valid database.php' . PHP_EOL);
+    exit ('Setup failed, please, use valid database.php' . PHP_EOL);
 
 //$server = $DB_DSN;
 //$username = $DB_USER;
 //$password = $DB_PASSWORD;
 //$dbName = $DB_NAME;
+//echo $DB_NAME;
 
 try {
-	$server = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
-	$server->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $server = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+    $server->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //	$server->query("DROP DATABASE IF EXISTS $DB_NAME");
 //	echo $server;
-	$server = null;
-}
-catch (PDOException $exception) {
-	exit ('Connection to database failed: ' . $exception->getMessage() . PHP_EOL);
+    $server = null;
+} catch (PDOException $exception) {
+    exit ('Connection to database failed: ' . $exception->getMessage() . PHP_EOL);
 }
 try {
-	$dbQuery = new PDO($DB_DSN . ';dbname=' . $DB_NAME . '', $DB_USER, $DB_PASSWORD);
-	$dbQuery->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $dbQuery = new PDO($DB_DSN . ';dbname=' . $DB_NAME . '', $DB_USER, $DB_PASSWORD);
+    $dbQuery->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 //	$server->query("DROP DATABASE IF EXISTS $DB_NAME");
 //	$server->query("CREATE DATABASE $DB_NAME");
-	$dbQuery = null;
+    $dbQuery = null;
 } catch (PDOException $exception) {
-	exit ('Connection to database failed: ' . $exception->getMessage() . PHP_EOL);
+    exit ('Connection to database failed: ' . $exception->getMessage() . PHP_EOL);
 }
 
 try {
-	$dbQuery = new PDO($DB_DSN . ';dbname=' . $DB_NAME . '', $DB_USER, $DB_PASSWORD);
-	$dbQuery->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$dbQuery->query('SELECT * FROM posts');
-//		'INSERT INTO $DB_NAME.superposables (filename) VALUE ("mask-carnival.png")'
-//		'INSERT INTO $DB_NAME.superposables (filename) VALUE ("frankenstein.png")'
-//	);
-
-	var_dump($dbQuery);
-	$dbQuery = null;
+    $dbQuery = new PDO($DB_DSN . ';dbname=' . $DB_NAME . '', $DB_USER, $DB_PASSWORD);
+    $dbQuery->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sth = $dbQuery->prepare('SELECT * FROM ' . $DB_NAME . '.users');
+    $sth->execute();
+//    $dbQuery->query('INSERT INTO ' . $DB_NAME . '.superposables (filename) VALUE ("mask-carnival.png")');
+    var_dump($sth->fetchAll(PDO::FETCH_ASSOC));
+    $dbQuery = null;
 } catch (PDOException $exception) {
-	exit ('Creating database with tables failed: ' . $exception->getMessage() . PHP_EOL);
+    exit ('Creating database with tables failed: ' . $exception->getMessage() . PHP_EOL);
 }
 
 //INSERT INTO u181725448_cama.superposables (id, filename) VALUES (4, \'dragon_new.png\');

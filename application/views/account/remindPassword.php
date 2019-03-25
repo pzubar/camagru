@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row justify-content-md-center remind-form">
             <div class="col-md-auto">
-                <h3>Remind password</h3>
+                <h3>New password</h3>
                 <p style="margin-bottom: 0">Enter new password you would like to use</p>
                 <form action="/account/remind-password" method="post" id="change-password-form">
                     <div class="form-group">
@@ -18,44 +18,55 @@
                                required>
                     </div>
                     <input id="hash" name="hash" type="hidden" value="<? if (isset($vars)) {
-                        echo $vars['hash'];
-                    } ?>">
+						echo $vars['hash'];
+					} ?>">
                     <button class="btn btn-info" type="submit">Change password</button>
                 </form>
             </div>
         </div>
     </div>
     <script>
-        const formChangePass = document.querySelector('#change-password-form');
-        if (formChangePass)
-            formChangePass.addEventListener("submit", function (e) {
-                e.preventDefault();
+		const formChangePass = document.querySelector('#change-password-form');
 
-                fetch(this.action, {
-                    method: this.method,
-                    body: new FormData(this),
-                    redirect: "follow"
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw "Response status was not ok: " + response.status;
-                        }
-                        if (response.redirected) {
-                            const url = response.url;
+		function validatePassword(string) {
+			const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{6,}$/;
+			return regExp.test(string);
+		}
 
-                            window.location.replace(url);
-                        }
-                        else
-                            return response.json();
-                    })
-                    .then(function (response) {
-                        if (response['status'] && response['status'] !== "success")
-                            alert(response.message)
-                    })
-                    .catch(function (err) {
-                        console.log('Fetch Error. ', err);
-                    });
-            }
+		if (formChangePass)
+			formChangePass.addEventListener("submit", function (e) {
+				e.preventDefault();
+
+				if (!validatePassword(this.password.value)) {
+					alert('Password is invalid! Use at least 6 characters, at least one latin letter and one or more digits');
+					return;
+				}
+
+				fetch(this.action, {
+					method: this.method,
+					body: new FormData(this),
+					redirect: "follow"
+				})
+					.then((response) => {
+						if (!response.ok) {
+							throw "Response status was not ok: " + response.status;
+						}
+						if (response.redirected) {
+							const url = response.url;
+
+							window.location.replace(url);
+						}
+						else
+							return response.json();
+					})
+					.then(function (response) {
+						if (response['status'] && response['status'] !== "success")
+							alert(response.message)
+					})
+					.catch(function (err) {
+						console.log('Fetch Error. ', err);
+					});
+			}
     </script>
 
 <? else: ?>

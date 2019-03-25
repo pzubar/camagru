@@ -149,12 +149,8 @@ class Account extends Model
 				? $_POST['login'] : $userInfo['username'],
 			'password' => (isset($_POST['password']) && $_POST['password'] !== "" && !password_verify($_POST['password'], $userInfo['password']))
 				? password_hash($_POST['password'], PASSWORD_BCRYPT, ['cost' => 10]) : $userInfo['password'],
-			'send_mail' => $_POST['password'] === "on" ? "1" : "0"
+			'send_mail' => $_POST['send_mail'] === "on" ? "1" : "0"
 		];
 		$this->db->query('UPDATE users SET username = :username, password = :password, email = :email, send_mail = :send_mail WHERE id = :id', $params);
-//		["send_mails"]
-//		echo isset($_POST['email']);
-//		var_dump($_POST);
-//		debug($userInfo);
 	}
 }

@@ -77,7 +77,11 @@ window.onload = function () {
 
 	wrapper.addEventListener("scroll", scrollHandler);
 
-	fetchPublications();
+	if (!postsNum) {
+		container.innerHTML = '<div class="container" style="margin-top: 20%"><div class="row justify-content-md-center">There are no photos yet :( <br><a href="/photos/new"> Be the first who posts!</a></div></div>';
+	}
+	else
+		fetchPublications();
 
 	window.onclick = function (event) {
 		const target = event.target;
@@ -170,5 +174,5 @@ function submitCommentForm(event) {
 }
 
 function escapeText(text) {
-	return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
+	return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }

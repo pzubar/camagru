@@ -33,10 +33,10 @@
                 <div class="form-group">
                     <input class="custom-checkbox" id="send-mail" name="send_mail"
                            type="checkbox"
-                           checked="<?php if (isset($userInfo) && isset($userInfo['send_mail']) && $userInfo['send_mail']) echo true ?>">
+                           <?php if (isset($userInfo) && isset($userInfo['send_mail']) && $userInfo['send_mail'] === "1") echo "checked"?>>
                     Send notifications
                 </div>
-                <button class="btn btn-info form-control" type="submit">Sign up</button>
+                <button class="btn btn-info form-control" type="submit">Save</button>
             </form>
         </div>
     </div>
@@ -44,7 +44,6 @@
 
 <script>
 	const form = document.querySelector('#settings-form');
-	console.log(form);
 
 	function validateEmail(email) {
 		const regExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
